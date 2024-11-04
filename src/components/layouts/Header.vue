@@ -1,10 +1,11 @@
 <template>
-  <header class="container mx-auto flex py-4 justify-center items-center gap-4">
+  <header class="container mx-auto flex py-4 justify-between items-center gap-4 p-1">
     <nav>
-      <RouterLink to="/">Go to Home</RouterLink>
+      <RouterLink to="/" @click="refreshInput">Home</RouterLink>
     </nav>
     <div>
-      <input class="bg-black border border-slate-400 rounded-full px-2 outline-none flex items-center w-full" type="text" v-model="searchValue" @keydown="goToSearch">
+      <input class="bg-black border border-slate-400 rounded-md px-2 outline-none flex items-center w-full"
+             type="text" v-model="searchValue" @keydown="goToSearch">
     </div>
   </header>
 </template>
@@ -12,8 +13,13 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import {useRouter, RouterLink} from "vue-router";
+
 const routes = useRouter()
-const searchValue = ref( '')
+const searchValue = ref('')
+
+const refreshInput = () => {
+  searchValue.value = ''
+}
 const goToSearch = () => {
   setTimeout(
       () => {
@@ -30,7 +36,7 @@ onMounted(() => {
   if (searchValue.value === '') {
     routes.push({name: 'main'})
   } else {
-  goToSearch()
+    goToSearch()
   }
 })
 </script>
