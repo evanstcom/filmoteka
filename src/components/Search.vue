@@ -3,10 +3,6 @@
     <h2 class="text-2xl">Поиск</h2>
     <swiper
         :slidesPerView="'auto'"
-        :scrollbar="{
-          hide: true
-        }"
-        :navigation="true"
         :modules="modules"
         class="mySwiper"
     >
@@ -27,21 +23,23 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import {Scrollbar, Navigation} from 'swiper/modules';
+
 const modules = [Scrollbar, Navigation]
 
 import {onMounted, ref, watch} from "vue";
 import axios from "axios";
 import {RouterLink, useRoute} from "vue-router";
+
 const route = useRoute()
 const searchFilms = ref([])
 const getItemSearch = async (q) => {
   const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${q}`
-    , {
-      headers: {
-        "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
-        "Content-Type": "application/json",
-      },
-    })
+      , {
+        headers: {
+          "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
+          "Content-Type": "application/json",
+        },
+      })
   searchFilms.value = data.films
 }
 
@@ -49,10 +47,10 @@ onMounted(() => {
   getItemSearch(route.query.q)
 })
 watch(
-  () => route.query.q,
-  () => {
-    getItemSearch(route.query.q)
-  }
+    () => route.query.q,
+    () => {
+      getItemSearch(route.query.q)
+    }
 )
 </script>
 

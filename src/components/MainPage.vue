@@ -1,12 +1,8 @@
 <template>
-  <section class="container mx-auto">
+  <section class="container mx-auto px-1">
     <h2 class="text-2xl">Премьеры этого месяца</h2>
     <swiper
         :slidesPerView="'auto'"
-        :scrollbar="{
-          hide: true
-        }"
-        :navigation="true"
         :modules="modules"
         class="mySwiper"
     >
@@ -27,11 +23,6 @@ import axios from "axios";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import {RouterLink} from "vue-router";
 import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
-import {Scrollbar, Navigation} from 'swiper/modules';
-
-const modules = [Scrollbar, Navigation]
 
 const favoriteFilms = ref([])
 

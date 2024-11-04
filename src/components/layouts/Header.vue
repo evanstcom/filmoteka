@@ -1,11 +1,15 @@
 <template>
-  <header class="container mx-auto flex py-4 justify-between items-center gap-4 p-1">
-    <nav>
-      <RouterLink to="/" @click="refreshInput">Home</RouterLink>
-    </nav>
-    <div>
-      <input class="bg-black border border-slate-400 rounded-md px-2 outline-none flex items-center w-full"
-             type="text" v-model="searchValue" @keydown="goToSearch">
+  <header class="container mx-auto flex py-4 justify-between items-center gap-4 p-1 bg-white mb-4">
+    <div class="relative w-full">
+      <input
+          class="bg-white border border-slate-400 rounded-sm py-2 px-10 outline-none flex items-center w-full text-black"
+          type="text" v-model="searchValue" @keydown="goToSearch">
+      <img src="/search.svg" alt="search" class="absolute left-2 top-1/2 -translate-y-1/2 w-6">
+      <nav>
+        <RouterLink class="text-black absolute right-2 top-1/2 -translate-y-1/2" to="/" @click="refreshInput">
+          <img alt="home" class="w-6 " src='/home.svg'>
+        </RouterLink>
+      </nav>
     </div>
   </header>
 </template>
