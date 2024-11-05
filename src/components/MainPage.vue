@@ -3,7 +3,6 @@
     <h2 class="text-2xl">Премьеры этого месяца</h2>
     <swiper
         :slidesPerView="'auto'"
-        :modules="modules"
         class="mySwiper"
     >
       <swiper-slide v-for="film in favoriteFilms" :key="film.kinopoiskId" class="slider__item p-2">
@@ -62,17 +61,14 @@ onMounted(() => {
 </script>
 
 <style lang="sass" scoped>
-.wrapper
-  height: 100vh
-  background-color: #b02020
-
 .poster
-  height: 200px
   border-radius: 4px
+  height: 400px
+  flex: 1
 
 .slider__item
   margin-bottom: 16px
   display: flex
-  width: 150px
+  width: 300px
   flex-direction: column
 </style>

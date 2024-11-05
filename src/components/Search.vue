@@ -1,6 +1,6 @@
 <template>
   <section class="container mx-auto">
-    <h2 class="text-2xl">Поиск</h2>
+    <h2 class="text-2xl px-1">Поиск</h2>
     <swiper
         :slidesPerView="'auto'"
         :modules="modules"
@@ -56,12 +56,13 @@ watch(
 
 <style scoped lang="sass">
 .poster
-  height: 200px
   border-radius: 4px
+  height: 400px
+  flex: 1
 
 .slider__item
   margin-bottom: 16px
   display: flex
-  width: 150px
+  width: 300px
   flex-direction: column
 </style>
