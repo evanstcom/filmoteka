@@ -1,10 +1,22 @@
 <template>
   <section class="container mx-auto">
-    <h2 class="text-2xl px-1">Поиск</h2>
+    <h2 class="text-2xl px-1 my-2">Поиск</h2>
+    <div class="relative w-full p-1">
+      <input
+          ref="filter"
+          placeholder="Поиск фильмов, сериалов..."
+          class="w-full p-2 bg-gray-700 bg-opacity-50 rounded-full py-1 pr-10 pl-4 outline-none flex items-center transition-all duration-500"
+          type="text" v-model="searchValue" @keydown.enter="goToSearch">
+      <button class="absolute right-0 top-1/2 -translate-y-1/2 mr-1 bg-orange-600 py-1 px-3 rounded-full"
+              @click="goToSearch">Найти
+      </button>
+    </div>
     <swiper
         :slidesPerView="'auto'"
-        :modules="modules"
+        :free-mode="true"
         class="mySwiper"
+        :freeMode="true"
+        :modules="modules"
     >
       <swiper-slide v-for="film in searchFilms" :key="film.filmId" class="slider__item p-2">
         <RouterLink :to="{ name: 'item', params: {id: film.filmId}}">
@@ -20,18 +32,16 @@
 <script setup>
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
-import {Scrollbar, Navigation} from 'swiper/modules';
-
-const modules = [Scrollbar, Navigation]
-
-import {onMounted, ref, watch} from "vue";
+import 'swiper/css/free-mode';
+import {FreeMode} from 'swiper/modules';
+import {ref, onMounted, nextTick} from "vue";
 import axios from "axios";
-import {RouterLink, useRoute} from "vue-router";
+import {RouterLink} from "vue-router";
 
-const route = useRoute()
+const modules = [FreeMode]
+const searchValue = ref('')
 const searchFilms = ref([])
+const filter = ref(null)
 const getItemSearch = async (q) => {
   const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${q}`
       , {
@@ -42,16 +52,15 @@ const getItemSearch = async (q) => {
       })
   searchFilms.value = data.films
 }
+const goToSearch = () => {
+  getItemSearch(searchValue.value)
+}
 
 onMounted(() => {
-  getItemSearch(route.query.q)
+  nextTick(() => {
+    filter.value.focus()
+  })
 })
-watch(
-    () => route.query.q,
-    () => {
-      getItemSearch(route.query.q)
-    }
-)
 </script>
 
 <style scoped lang="sass">

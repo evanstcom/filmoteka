@@ -1,9 +1,12 @@
 <template>
   <section class="container mx-auto px-1">
-    <h2 class="text-2xl">Премьеры этого месяца</h2>
+    <h2 class="text-2xl my-2">Премьеры этого месяца</h2>
     <swiper
         :slidesPerView="'auto'"
+        :free-mode="true"
         class="mySwiper"
+        :freeMode="true"
+        :modules="modules"
     >
       <swiper-slide v-for="film in favoriteFilms" :key="film.kinopoiskId" class="slider__item p-2">
         <RouterLink :to="{ name: 'item', params: {id: film.kinopoiskId}}">
@@ -22,7 +25,10 @@ import axios from "axios";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import {RouterLink} from "vue-router";
 import 'swiper/css';
+import 'swiper/css/free-mode';
+import {FreeMode} from 'swiper/modules';
 
+const modules = [FreeMode]
 const favoriteFilms = ref([])
 
 const date = {

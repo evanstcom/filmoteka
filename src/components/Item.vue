@@ -1,5 +1,6 @@
 <template>
-  <section class="container mx-auto -mt-4">
+  <div v-if="isLoading" class="w-full h-screen flex justify-center items-center">Loading...</div>
+  <section v-else class="container mx-auto pb-4">
     <div class="flex flex-col gap-2 w-full justify-between">
       <div class="relative">
         <img class="w-full" :src="item.posterUrl" :alt="item.nameRu ? item.nameRu : item.nameOriginal">
@@ -8,7 +9,8 @@
         </div>
         <div
             class="absolute bottom-0 w-full  h-24 bg-gradient-to-t from-black to-transparent flex items-end justify-around p-2">
-          <div v-if="item.year" class="text-sm">{{ item.year }}</div>
+          <div v-if="item.startYear" class="text-sm">{{ item.startYear }}-{{ item.endYear }}</div>
+          <div v-else class="text-sm">{{ item.year }}</div>
           <div v-if="item.filmLength" class="text-slate-300 text-sm">{{
               item.filmLength
             }} мин.
@@ -19,7 +21,6 @@
           <div v-else class="text-orange-500 text-sm font-semibold">
             2D
           </div>
-
           <div v-if="item.ratingAgeLimits" class="text-white text-sm font-semibold">{{
               item.ratingAgeLimits.split('age')[1]
             }}+
@@ -45,12 +46,14 @@
           Кинопоиске</a>
 
       </div>
-      <div class=" bg-white px-2 py-4">
+    </div>
+  </section>
+  <section class="bg-white">
+    <div class="container mx-auto bg-white flex flex-col gap-2 w-full px-2 pt-2 pb-8">
+      <div class=" bg-white py-4">
         <p class="text-black text-sm font-bold mb-2">{{ item.shortDescription }}</p>
         <p class="text-black text-sm">{{ item.description }}</p>
       </div>
-    </div>
-    <div class="bg-white flex flex-col gap-2 w-full p-2">
       <h2 class="text-black text-xl bold">Рейтинг Кинопоиска</h2>
       <div class="flex flex-col items-center justify-center bg-slate-200 py-4 rounded-md w-full self-center gap-2">
         <span
@@ -68,6 +71,7 @@
       </div>
     </div>
   </section>
+  <div class="h-14"></div>
 </template>
 
 <script setup>
@@ -75,6 +79,7 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useRoute} from "vue-router";
 
+const isLoading = ref(true)
 const route = useRoute()
 const id = route.params.id
 const item = ref({
@@ -93,8 +98,18 @@ const item = ref({
   webUrl: '',
   ratingKinopoiskVoteCount: '',
 })
+/*const videos = ref([])
+const teaser = ref('')*/
+
 const getItem = async (id) => {
+  isLoading.value = true
   const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}`, {
+    headers: {
+      "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
+      "Content-Type": "application/json",
+    },
+  })
+  const {data: videosData} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/videos`, {
     headers: {
       "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
       "Content-Type": "application/json",
@@ -102,10 +117,18 @@ const getItem = async (id) => {
   })
   item.value = data
   console.log(item.value)
+  /*  videos.value = videosData.items*/
+  /*  getTeaser()*/
+  isLoading.value = false
 }
+
+/*const getTeaser = () => {
+  teaser.value = videos.value.filter((item) => item.name === 'DVD-трейлер')[0].url
+  console.log(teaser.value)
+}*/
+
 onMounted(() => {
   getItem(id)
-  console.log(id)
 })
 </script>
 
