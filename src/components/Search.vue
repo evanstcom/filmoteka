@@ -11,39 +11,20 @@
               @click="goToSearch">Найти
       </button>
     </div>
-    <swiper
-        :slidesPerView="'auto'"
-        :free-mode="true"
-        class="mySwiper"
-        :freeMode="true"
-        :modules="modules"
-    >
-      <swiper-slide v-for="film in searchFilms" :key="film.filmId" class="slider__item p-2">
-        <RouterLink :to="{ name: 'item', params: {id: film.filmId}}">
-          <img class="poster mb-1" :src="film.posterUrl" :alt="film.nameRu">
-          <p class="text-xs text-slate-400 mb-1">{{ film.year }}, {{ film.genres[0].genre }}</p>
-          <h3 class="text-xs flex-1 mb-1">{{ film.nameRu }}</h3>
-        </RouterLink>
-      </swiper-slide>
-    </swiper>
+    <SliderList :films="searchFilms"/>
   </section>
 </template>
 
 <script setup>
-import {Swiper, SwiperSlide} from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import {FreeMode} from 'swiper/modules';
 import {ref, onMounted, nextTick} from "vue";
 import axios from "axios";
-import {RouterLink} from "vue-router";
+import SliderList from "@/components/SliderList.vue";
 
-const modules = [FreeMode]
 const searchValue = ref('')
 const searchFilms = ref([])
 const filter = ref(null)
 const getItemSearch = async (q) => {
-  const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${q}`
+  const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${q.trim()}`
       , {
         headers: {
           "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
@@ -53,6 +34,7 @@ const getItemSearch = async (q) => {
   searchFilms.value = data.films
 }
 const goToSearch = () => {
+  if (!searchValue.value || searchValue.value < 2) return
   getItemSearch(searchValue.value)
 }
 
@@ -62,16 +44,3 @@ onMounted(() => {
   })
 })
 </script>
-
-<style scoped lang="sass">
-.poster
-  border-radius: 4px
-  height: 400px
-  flex: 1
-
-.slider__item
-  margin-bottom: 16px
-  display: flex
-  width: 300px
-  flex-direction: column
-</style>

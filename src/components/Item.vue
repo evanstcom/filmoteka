@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoading" class="w-full h-screen flex justify-center items-center">Loading...</div>
+  <Loading v-if="isLoading"/>
   <section v-else class="container mx-auto pb-4">
     <div class="flex flex-col gap-2 w-full justify-between">
       <div class="relative">
@@ -71,13 +71,14 @@
       </div>
     </div>
   </section>
-  <div class="h-14"></div>
+  <div class="h-16 bg-white"></div>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useRoute} from "vue-router";
+import Loading from "@/components/Loading.vue";
 
 const isLoading = ref(true)
 const route = useRoute()

@@ -1,26 +1,27 @@
 <template>
   <Loading v-if="isLoading"/>
   <section v-else class="container mx-auto px-1">
-    <div class="flex justify-between mb-2 items-center">
+    <div class="flex justify-between mb-2">
       <h2 class="text-2xl">Премьеры этого месяца</h2>
-      <RouterLink :to="{name:'premier'}" class="text-orange-600 flex gap-1.5 pt-1">
-        <span class="text-sm leading-none pb-0.5">все</span>
-        <img src="/right_arrow.svg" alt="all" class="w-3">
-      </RouterLink>
     </div>
-    <SliderList :films="favoritesOnMain"/>
+    <div class="grid-cols-2 grid gap-1">
+      <SliderItem :film="film" v-for="film in premiers" :key="film.kinopoiskId ? film.kinopoiskId : film.filmId"
+                  class="w-full"/>
+    </div>
+    <div class="h-16"></div>
   </section>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import SliderList from "@/components/SliderList.vue";
+import {ref, onMounted} from "vue";
 import axios from "axios";
-import SliderList from "./SliderList.vue";
-import Loading from "./Loading.vue";
-import {RouterLink} from "vue-router";
+import Loading from "@/components/Loading.vue";
+import SliderItem from "@/components/SliderItem.vue";
 
-const favoritesOnMain = ref([])
+const premiers = ref([])
 const isLoading = ref(true)
+
 const date = {
   year: new Date().getFullYear(),
   month: new Date().getMonth() + 1
@@ -47,12 +48,11 @@ const getFavoriteFilms = async () => {
       "Content-Type": "application/json",
     },
   })
-  favoritesOnMain.value = data.items.slice(0, 20)
-  isLoading.value = false
+  premiers.value = data.items
+  setTimeout(() => isLoading.value = false, 2000)
 }
 
 onMounted(() => {
   getFavoriteFilms()
 })
 </script>
-
