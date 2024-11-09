@@ -1,23 +1,24 @@
 <template>
   <Loading v-if="isLoading"/>
-  <section v-else class="container mx-auto px-1">
-    <div class="flex justify-between mb-2">
+  <section v-else class="container mx-auto p-1">
+    <div class="flex gap-2 mb-4">
+      <BackLink/>
       <h2 class="text-2xl">Премьеры этого месяца</h2>
     </div>
     <div class="grid-cols-2 grid gap-1">
       <SliderItem :film="film" v-for="film in premiers" :key="film.kinopoiskId ? film.kinopoiskId : film.filmId"
-                  class="w-full"/>
+                  size="w-full h-72"/>
     </div>
-    <div class="h-16"></div>
+    <div class="h-20"></div>
   </section>
 </template>
 
 <script setup>
-import SliderList from "@/components/SliderList.vue";
 import {ref, onMounted} from "vue";
 import axios from "axios";
 import Loading from "@/components/Loading.vue";
 import SliderItem from "@/components/SliderItem.vue";
+import BackLink from "@/components/BackLink.vue";
 
 const premiers = ref([])
 const isLoading = ref(true)
@@ -49,7 +50,7 @@ const getFavoriteFilms = async () => {
     },
   })
   premiers.value = data.items
-  setTimeout(() => isLoading.value = false, 2000)
+  setTimeout(() => isLoading.value = false, 500)
 }
 
 onMounted(() => {

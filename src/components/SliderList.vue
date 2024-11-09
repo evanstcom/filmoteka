@@ -5,10 +5,10 @@
       class="mySwiper"
       :freeMode="true"
       :modules="modules"
-      :space-between="10"
+      :space-between="8"
   >
     <swiper-slide v-for="film in films" :key="film.kinopoiskId ? film.kinopoiskId : film.filmId"
-                  class="flex-1 p-2">
+                  class="flex-1">
       <SliderItem :film="film"/>
     </swiper-slide>
   </swiper>

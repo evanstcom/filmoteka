@@ -1,6 +1,9 @@
 <template>
   <Loading v-if="isLoading"/>
   <section v-else class="container mx-auto pb-4">
+    <div class="fixed z-50 top-4 left-4">
+      <BackLink/>
+    </div>
     <div class="flex flex-col gap-2 w-full justify-between">
       <div class="relative">
         <img class="w-full" :src="item.posterUrl" :alt="item.nameRu ? item.nameRu : item.nameOriginal">
@@ -71,7 +74,7 @@
       </div>
     </div>
   </section>
-  <div class="h-16 bg-white"></div>
+  <div class="h-20 bg-white"></div>
 </template>
 
 <script setup>
@@ -79,6 +82,7 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useRoute} from "vue-router";
 import Loading from "@/components/Loading.vue";
+import BackLink from "@/components/BackLink.vue";
 
 const isLoading = ref(true)
 const route = useRoute()

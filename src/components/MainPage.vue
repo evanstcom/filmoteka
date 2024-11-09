@@ -1,7 +1,7 @@
 <template>
   <Loading v-if="isLoading"/>
   <section v-else class="container mx-auto px-1">
-    <div class="flex justify-between mb-2 items-center">
+    <div class="flex justify-between mb-4 items-center">
       <h2 class="text-2xl">Премьеры этого месяца</h2>
       <RouterLink :to="{name:'premier'}" class="text-orange-600 flex gap-1.5 pt-1">
         <span class="text-sm leading-none pb-0.5">все</span>
