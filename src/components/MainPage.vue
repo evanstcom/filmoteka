@@ -1,6 +1,8 @@
 <template>
   <Loading v-if="isLoading"/>
   <section v-else class="container mx-auto px-1">
+    <h2 class="text-2xl mb-2">Новости</h2>
+    <News/>
     <div class="flex justify-between mb-4 items-center">
       <h2 class="text-2xl">Премьеры этого месяца</h2>
       <RouterLink :to="{name:'premier'}" class="text-orange-600 flex gap-1.5 pt-1">
@@ -17,6 +19,7 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import SliderList from "./SliderList.vue";
 import Loading from "./Loading.vue";
+import News from "./News.vue";
 import {RouterLink} from "vue-router";
 
 const favoritesOnMain = ref([])
