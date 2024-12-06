@@ -12,7 +12,10 @@
         </div>
         <div
             class="absolute bottom-0 w-full  h-24 bg-gradient-to-t from-black to-transparent flex items-end justify-around p-2">
-          <div v-if="item.startYear" class="text-sm">{{ item.startYear }}-{{ item.endYear }}</div>
+          <div v-if="item.startYear" class="text-sm">{{ item.startYear }}-{{
+              item.endYear ? item.endYear : "н.в."
+            }}
+          </div>
           <div v-else class="text-sm">{{ item.year }}</div>
           <div v-if="item.filmLength" class="text-slate-300 text-sm">{{
               item.filmLength

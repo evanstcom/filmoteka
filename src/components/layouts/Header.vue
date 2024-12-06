@@ -1,7 +1,8 @@
 <template>
   <header
       class="fixed bottom-0 z-50 mx-auto flex justify-center items-center py-8 h-14 w-full ">
-    <nav class="flex justify-around items-center container bg-gray-900 p-4 w-1/3 gap-4 mb-8 rounded-2xl relative">
+    <nav
+        class="flex justify-around items-center bg-opacity-50 container bg-gray-900 p-4 w-48 gap-4 mb-8 rounded-2xl relative">
       <RouterLink to="/">
         <img alt="home" class="w-6 " src='/home.svg'>
       </RouterLink>
