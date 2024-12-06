@@ -1,10 +1,9 @@
 <template>
-
   <swiper
       :slidesPerView="'auto'"
       :centeredSlides="true"
       :pagination="{
-      type: 'progressbar',
+      type: 'progressbar'
     }"
       :navigation="true"
       :spaceBetween="30"
@@ -28,14 +27,15 @@
 
 <script setup>
 import {onMounted, ref} from "vue"
-import axios from "axios"
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import {Swiper, SwiperSlide} from "swiper/vue"
 import {Pagination, Navigation} from 'swiper/modules'
+import {useNewsStore} from "@/stores/news.js";
 
 const modules = [Pagination, Navigation]
+const newsStore = useNewsStore()
 
 const news = ref([{
   kinopoiskId: 4008963,
@@ -47,19 +47,15 @@ const news = ref([{
 
 }])
 
-const getNews = async () => {
-  const {data} = await axios.get('https://kinopoiskapiunofficial.tech/api/v1/media_posts?page=1', {
-    headers: {
-      "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
-      "Content-Type": "application/json",
-    },
-  })
-  news.value = data.items
-  console.log(data)
-}
 
-onMounted(() => {
-  getNews()
+onMounted(async () => {
+  if (!newsStore.newsData.length) {
+    await newsStore.getNews()
+    news.value = newsStore.newsData
+    console.log(newsStore.newsData)
+  } else {
+    news.value = newsStore.newsData
+  }
 })
 </script>
 

@@ -1,13 +1,17 @@
 import './assets/base.sass'
 import {createApp} from 'vue'
-import App from './App.vue'
-import Item from '@/components/Item.vue'
-import MainPage from '@/components/MainPage.vue'
-import Search from '@/components/Search.vue'
-import NotFound from '@/components/NotFound.vue'
-
 import {createWebHistory, createRouter} from 'vue-router'
-import Premier from "@/components/Premier.vue";
+
+import {createPinia} from "pinia";
+
+import App from './App.vue'
+import Item from '@/components/pages/Item.vue'
+import MainPage from '@/components/pages/MainPage.vue'
+import Search from '@/components/pages/Search.vue'
+import NotFound from '@/components/pages/NotFound.vue'
+import Premier from "@/components/pages/Premier.vue"
+import Pinia from "@/components/pages/Pinia.vue"
+import Store from "@/components/pages/Store.vue"
 
 
 const routes = [
@@ -15,6 +19,8 @@ const routes = [
     {path: '/search', component: Search, name: 'search'},
     {path: '/film/:id', component: Item, name: 'item'},
     {path: '/premier', component: Premier, name: 'premier', props: true},
+    {path: '/pinia', component: Pinia, name: 'pinia'},
+    {path: '/store', component: Store, name: 'store'},
     {path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound}
 ]
 
@@ -23,4 +29,6 @@ const router = createRouter({
     routes,
 })
 
-createApp(App).use(router).mount('#app')
+const pinia = createPinia()
+
+createApp(App).use(router).use(pinia).mount('#app')

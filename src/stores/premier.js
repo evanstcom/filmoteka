@@ -1,0 +1,38 @@
+import {defineStore} from "pinia"
+import {ref} from "vue"
+import axios from "axios"
+
+
+export const usePremierStore = defineStore('premier', () => {
+    const premiers = ref([])
+
+    const getPremiers = async () => {
+        const date = {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1
+        }
+        const month = {
+            1: 'january',
+            2: 'february',
+            3: 'march',
+            4: 'april',
+            5: 'may',
+            6: 'june',
+            7: 'july',
+            8: 'august',
+            9: 'september',
+            10: 'october',
+            11: 'november',
+            12: 'december'
+        }
+        const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=${date.year}&month=${month[date.month]}`, {
+            headers: {
+                "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
+                "Content-Type": "application/json",
+            },
+        })
+        premiers.value = data.items
+    }
+
+    return {premiers, getPremiers}
+})

@@ -114,12 +114,12 @@ const getItem = async (id) => {
       "Content-Type": "application/json",
     },
   })
-  const {data: videosData} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/videos`, {
-    headers: {
-      "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
-      "Content-Type": "application/json",
-    },
-  })
+  /*  const {data: videosData} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/videos`, {
+      headers: {
+        "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
+        "Content-Type": "application/json",
+      },
+    })*/
   item.value = data
   console.log(item.value)
   /*  videos.value = videosData.items*/
