@@ -12,7 +12,7 @@
   >
     <swiper-slide v-for="item in news" :key="item.kinopoiskId">
       <div class="relative rounded-md overflow-hidden bg-cover h-48 w-full"
-           :style="`background-image: url(${item.imageUrl})`">\
+           :style="`background-image: url(${item.imageUrl})`">
         <div class="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
         <!--        <img class="w-full opacity-50 rounded-md" :src="item.imageUrl" :alt="item.title">-->
         <!--        <p class="absolute bottom-4 left-4 text-xs mb-2">{{ item.description }}</p>-->

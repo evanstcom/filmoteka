@@ -7,7 +7,7 @@
                :class="size">-->
       <img class="rounded-md mb-1 h-full w-full" :src="film.posterUrl" :alt="film.nameRu">
     </div>
-    <p class="text-xs text-slate-400 mb-1">{{ film.year }}, {{
+    <p v-if="film.year && film.genres" class="text-xs text-slate-400 mb-1">{{ film.year }}, {{
         film.genres[0].genre
       }}</p>
     <h3 class="text-xs mb-1">{{ film.nameRu }}</h3>

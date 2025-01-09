@@ -77,15 +77,23 @@
       </div>
     </div>
   </section>
-  <div class="h-20 bg-white"></div>
+  <section v-if="similarFilms.length" class="container p-2">
+    <Title title="Похожие"/>
+    <SliderList :films="similarFilms"/>
+  </section>
+  <ScrollToTop/>
+  <div class="h-20 bg-black"></div>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import axios from "axios";
-import {useRoute} from "vue-router";
+import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import Loading from "@/components/Loading.vue";
 import BackLink from "@/components/BackLink.vue";
+import SliderList from "@/components/SliderList.vue";
+import ScrollToTop from "@/components/pages/ScrollToTop.vue";
+import Title from "@/components/Title.vue";
 
 const isLoading = ref(true)
 const route = useRoute()
@@ -106,11 +114,11 @@ const item = ref({
   webUrl: '',
   ratingKinopoiskVoteCount: '',
 })
+const similarFilms = ref([])
 /*const videos = ref([])
 const teaser = ref('')*/
 
 const getItem = async (id) => {
-  isLoading.value = true
   const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}`, {
     headers: {
       "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
@@ -124,10 +132,8 @@ const getItem = async (id) => {
       },
     })*/
   item.value = data
-  console.log(item.value)
   /*  videos.value = videosData.items*/
   /*  getTeaser()*/
-  isLoading.value = false
 }
 
 /*const getTeaser = () => {
@@ -135,9 +141,38 @@ const getItem = async (id) => {
   console.log(teaser.value)
 }*/
 
+const getSimilar = async (id) => {
+  const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/similars`, {
+    headers: {
+      "X-API-KEY": "9e52d931-b757-457b-a1ea-0d872ae51d51",
+      "Content-Type": "application/json",
+    },
+  })
+  similarFilms.value = data.items
+  console.log(similarFilms.value)
+}
+
+const onLoad = async (id) => {
+  isLoading.value = true
+  await getItem(id)
+  await getSimilar(id)
+  isLoading.value = false
+}
+
 onMounted(() => {
-  getItem(id)
+  onLoad(id)
 })
+
+onBeforeRouteUpdate(async (to, from) => {
+  if (to.params.id !== from.params.id) {
+    await onLoad(to.params.id)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+});
+
 </script>
 
 <style lang="scss" scoped>

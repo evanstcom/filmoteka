@@ -8,7 +8,7 @@
     <div class="grid-cols-1 grid gap-1">
       <div v-for="item in newsData" :key="item.kinopoiskId">
         <div class="relative rounded-md overflow-hidden bg-cover h-48 w-full"
-             :style="`background-image: url(${item.imageUrl})`">\
+             :style="`background-image: url(${item.imageUrl})`">
           <div class="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
           <h2 class="absolute bottom-4 left-4 text-xs w-1/2">{{ item.title }}</h2>
           <a :href="item.url"
