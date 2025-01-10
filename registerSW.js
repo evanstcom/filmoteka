@@ -1,1 +1,1 @@
-if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/filmoteka/sw.js', { scope: '/filmoteka/' })})}
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/filmoteka/firebase-messaging-sw.ts', { scope: '/filmoteka/' })})}
