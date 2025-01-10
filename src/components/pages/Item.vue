@@ -2,7 +2,7 @@
   <metainfo>
     <template v-slot:title>{{ item.nameRu }}</template>
     <template v-slot:meta>{{
-        item.description ? item.description : item.shortDescription
+        item.shortDescription ? item.shortDescription : item.description
       }}
     </template>
   </metainfo>
