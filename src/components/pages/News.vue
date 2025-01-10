@@ -1,4 +1,7 @@
 <template>
+  <metainfo>
+    <template v-slot:title/>
+  </metainfo>
   <Loading v-if="isLoading"/>
   <section v-else class="relative container mx-auto p-1">
     <div class="flex gap-2 mb-4">
@@ -73,6 +76,19 @@ const getNews = async (page) => {
 
 onMounted(async () => {
   await getNews(currentPage.value)
+})
+
+import {useMeta} from "vue-meta";
+
+useMeta({
+  title: 'Новости',
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: 'Поиск фильмов, сериалов...'
+    }
+  ]
 })
 </script>
 

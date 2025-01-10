@@ -2,6 +2,8 @@ import './assets/base.sass'
 import {createApp} from 'vue'
 import {createWebHistory, createRouter} from 'vue-router'
 
+import {createMetaManager} from 'vue-meta'
+
 import {createPinia} from "pinia";
 
 import VueAwesomePaginate from "vue-awesome-paginate";
@@ -36,4 +38,5 @@ const router = createRouter({
 
 const pinia = createPinia()
 
-createApp(App).use(router).use(pinia).use(VueAwesomePaginate).mount('#app')
+
+createApp(App).use(router).use(createMetaManager()).use(pinia).use(VueAwesomePaginate).mount('#app')

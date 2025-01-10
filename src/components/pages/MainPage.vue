@@ -1,4 +1,7 @@
 <template>
+  <metainfo>
+    <template v-slot:title></template>
+  </metainfo>
   <Loading v-if="isLoading"/>
   <section v-else class="container mx-auto px-1">
     <Title title="Последние новости" :show-all="true" link="news"/>
@@ -34,6 +37,19 @@ onMounted(async () => {
     favoritesOnMain.value = premierStore.premiers.slice(0, 20)
   }
   isLoading.value = false
+})
+
+import {useMeta} from "vue-meta";
+
+useMeta({
+  title: 'Главная - Filmoteka by EVANS',
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: 'Фильмы и сериалы на любой вкус'
+    }
+  ]
 })
 </script>
 

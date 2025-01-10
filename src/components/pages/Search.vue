@@ -1,4 +1,7 @@
 <template>
+  <metainfo>
+    <template v-slot:title/>
+  </metainfo>
   <section class="container mx-auto p-1">
     <div class="flex gap-2 mb-6">
       <BackLink/>
@@ -62,6 +65,21 @@ onMounted(() => {
     filter.value.focus()
   })
 })
+
+import {useMeta} from "vue-meta";
+
+useMeta({
+  title: 'Поиск',
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: 'Поиск фильмов, сериалов...'
+    }
+  ]
+})
+
+
 </script>
 
 <style scoped lang="scss">
