@@ -2,12 +2,13 @@ importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js
 importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js');
 
 firebase.initializeApp({
-    apiKey: "AIzaSyD036jwFy2asDyY4AvY6UIQwXwzejynCfM",
-    authDomain: "filmoteka-by-evans.firebaseapp.com",
-    projectId: "filmoteka-by-evans",
-    storageBucket: "filmoteka-by-evans.firebasestorage.app",
-    messagingSenderId: "652707479711",
-    appId: "1:652707479711:web:b7185b679a324a2b2a62aa"
+    apiKey: "AIzaSyCy_tc_KY4ScmNfLNAYMYDEJ5zOxBtqrao",
+    authDomain: "filmoteka-evans.firebaseapp.com",
+    projectId: "filmoteka-evans",
+    storageBucket: "filmoteka-evans.firebasestorage.app",
+    messagingSenderId: "992624755114",
+    appId: "1:992624755114:web:0b27d6df080506b84eabd3",
+    measurementId: "G-0QTYQW628E"
 });
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
