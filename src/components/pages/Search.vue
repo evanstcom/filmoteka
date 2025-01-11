@@ -14,8 +14,7 @@
           class="w-full p-2 bg-gray-900 rounded-2xl py-2 pr-10 pl-4 outline-none flex items-center"
           type="text" v-model="searchValue" @keydown.enter="goToSearch">
       <button v-show="searchValue.length > 0" class="absolute right-20 top-1/2 -translate-y-1/2 mr-1"
-              @click="searchValue = ''"><img class="w-4" src="/clear.svg" alt="clear">
-      </button>
+              @click="searchValue = ''"></button>
       <button class="absolute right-0 top-1/2 -translate-y-1/2 bg-orange-600 py-2 px-3 rounded-2xl"
               @click="goToSearch">Найти
       </button>
