@@ -32,6 +32,7 @@ export default defineConfig({
             },
             registerType: 'autoUpdate',
             workbox: {
+                globPatterns: ['firebase-messaging-sw.js'],
                 runtimeCaching: [
                     {
                         urlPattern: /.*\.(png|jpg|jpeg|svg|gif|css|js)/,

@@ -30,10 +30,12 @@ import {ref, onMounted, nextTick} from "vue";
 import axios from "axios";
 import SliderList from "@/components/SliderList.vue";
 import BackLink from "@/components/BackLink.vue";
+import {useMeta} from "vue-meta";
 
 const searchValue = ref('')
 const searchFilms = ref([])
 const filter = ref(null)
+
 const getItemSearch = async (q) => {
   const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${q.trim()}`
       , {
@@ -65,8 +67,6 @@ onMounted(() => {
     filter.value.focus()
   })
 })
-
-import {useMeta} from "vue-meta";
 
 useMeta({
   title: 'Поиск',

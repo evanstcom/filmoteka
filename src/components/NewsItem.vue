@@ -52,7 +52,6 @@ onMounted(async () => {
   if (!newsStore.newsData.length) {
     await newsStore.getNews()
     news.value = newsStore.newsData
-    console.log(newsStore.newsData)
   } else {
     news.value = newsStore.newsData
   }

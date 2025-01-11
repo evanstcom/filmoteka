@@ -19,7 +19,6 @@ import News from "@/components/pages/News.vue"
 import Pinia from "@/components/pages/Pinia.vue"
 import Store from "@/components/pages/Store.vue"
 
-
 const routes = [
     {path: '/', component: MainPage, name: 'main'},
     {path: '/search', component: Search, name: 'search'},
@@ -38,5 +37,15 @@ const router = createRouter({
 
 const pinia = createPinia()
 
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('https://evanstcom.github.io/filmoteka/firebase-messaging-sw.js')
+        .then((registration) => {
+            console.log('Service Worker registered with scope:', registration.scope);
+        }).catch((err) => {
+        console.log('Service Worker registration failed:', err);
+    });
+}
 
 createApp(App).use(router).use(createMetaManager()).use(pinia).use(VueAwesomePaginate).mount('#app')
+
+
