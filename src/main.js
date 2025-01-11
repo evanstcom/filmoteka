@@ -31,12 +31,13 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory('/filmoteka/'),
+    history: createWebHistory('/'),
     routes,
 })
 
 const pinia = createPinia()
 
+/*
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('https://evanstcom.github.io/filmoteka/firebase-messaging-sw.js')
         .then((registration) => {
@@ -45,6 +46,7 @@ if ('serviceWorker' in navigator) {
         console.log('Service Worker registration failed:', err);
     });
 }
+*/
 
 createApp(App).use(router).use(createMetaManager()).use(pinia).use(VueAwesomePaginate).mount('#app')
 

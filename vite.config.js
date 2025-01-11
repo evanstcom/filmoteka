@@ -5,6 +5,7 @@ import {VitePWA} from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+    base: '/',
     plugins: [
         vue(),
         VitePWA({
@@ -26,12 +27,11 @@ export default defineConfig({
                         type: 'image/png',
                     },
                 ],
-                start_url: '/filmoteka/',
+                start_url: '/',
                 display: 'standalone',
             },
             registerType: 'autoUpdate',
             workbox: {
-                globPatterns: ['firebase-messaging-sw.js'],
                 runtimeCaching: [
                     {
                         urlPattern: /.*\.(png|jpg|jpeg|svg|gif|css|js)/,

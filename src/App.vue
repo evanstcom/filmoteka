@@ -3,6 +3,7 @@ import Header from "@/components/layouts/Header.vue"
 import {initializeApp} from "firebase/app";
 import {getToken, onMessage} from "firebase/messaging";
 import {getMessaging} from "firebase/messaging/sw";
+import {onMounted} from "vue";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCy_tc_KY4ScmNfLNAYMYDEJ5zOxBtqrao",
@@ -38,7 +39,22 @@ onMessage(messaging, (payload) => {
   console.log('Message received. ', payload);
 });
 
+function requestNotificationPermission() {
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Разрешение на уведомления получено!');
+      // Здесь можно инициализировать Firebase Cloud Messaging
+    } else {
+      console.log('Разрешение на уведомления отклонено.');
+    }
+  });
+}
 
+// Вызываем функцию, когда пользователь готов получить уведомления
+
+onMounted(() => {
+  requestNotificationPermission();
+})
 </script>
 
 <template>
