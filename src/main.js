@@ -18,6 +18,7 @@ import Premier from "@/components/pages/Premier.vue"
 import News from "@/components/pages/News.vue"
 import Pinia from "@/components/pages/Pinia.vue"
 import Store from "@/components/pages/Store.vue"
+import Notification from "@/components/pages/Notification.vue"
 
 const routes = [
     {path: '/', component: MainPage, name: 'main'},
@@ -25,6 +26,7 @@ const routes = [
     {path: '/film/:id', component: Item, name: 'item'},
     {path: '/premier', component: Premier, name: 'premier', props: true},
     {path: '/news', component: News, name: 'news'},
+    {path: '/notification', component: Notification, name: 'notification'},
     {path: '/pinia', component: Pinia, name: 'pinia'},
     {path: '/store', component: Store, name: 'store'},
     {path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound}
