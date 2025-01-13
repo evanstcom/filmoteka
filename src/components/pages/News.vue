@@ -2,7 +2,7 @@
   <metainfo>
     <template v-slot:title/>
   </metainfo>
-  <Loading v-if="isLoading"/>
+  <Loading v-if="isLoading" :full-screen="true"/>
   <section v-else class="relative container mx-auto p-1">
     <div class="flex gap-2 mb-4">
       <BackLink/>
@@ -36,7 +36,7 @@
 <script setup>
 import BackLink from "@/components/BackLink.vue";
 import Title from "@/components/Title.vue";
-import ScrollToTop from "@/components/pages/ScrollToTop.vue";
+import ScrollToTop from "@/components/ScrollToTop.vue";
 
 import {onMounted, ref} from "vue";
 import {VueAwesomePaginate} from "vue-awesome-paginate";

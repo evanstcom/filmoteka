@@ -50,7 +50,7 @@ const notificationPermission = () => {
 }
 
 const copyText = () => {
-  navigator.clipboard.writeText(token).then(() => {
+  navigator.clipboard.writeText(token.value).then(() => {
     console.log('Текст скопирован в буфер обмена');
   })
 }

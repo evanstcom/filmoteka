@@ -2,14 +2,14 @@
   <metainfo>
     <template v-slot:title></template>
   </metainfo>
-  <Loading v-if="isLoading"/>
+  <Loading v-if="isLoading" :full-screen="true"/>
   <section v-else class="container mx-auto px-1">
     <Title title="Последние новости" :show-all="true" link="news"/>
     <News/>
     <Title title="Премьеры этого месяца" :show-all="true" link="premier"/>
     <SliderList :films="favoritesOnMain"/>
     <div class="h-20 flex justify-end items-end">
-      <RouterLink class="p-4 text-black z-50" to="/pinia">Pinia</RouterLink>
+      <!--      <RouterLink class="p-4 text-black z-50" to="/pinia">Pinia</RouterLink>-->
     </div>
   </section>
 </template>

@@ -21,7 +21,7 @@ import SliderItem from "@/components/SliderItem.vue";
 import BackLink from "@/components/BackLink.vue";
 import {usePremierStore} from "@/stores/premier.js";
 import Title from "@/components/Title.vue";
-import ScrollToTop from "@/components/pages/ScrollToTop.vue";
+import ScrollToTop from "@/components/ScrollToTop.vue";
 
 const premierStore = usePremierStore()
 const premiersOnPage = ref([])

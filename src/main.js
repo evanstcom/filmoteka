@@ -16,19 +16,20 @@ import Search from '@/components/pages/Search.vue'
 import NotFound from '@/components/pages/NotFound.vue'
 import Premier from "@/components/pages/Premier.vue"
 import News from "@/components/pages/News.vue"
-import Pinia from "@/components/pages/Pinia.vue"
-import Store from "@/components/pages/Store.vue"
 import Notification from "@/components/pages/Notification.vue"
+import SignIn from "@/components/pages/SignIn.vue"
+import Registration from "@/components/pages/Registration.vue"
+import {initializeApp} from "firebase/app";
 
 const routes = [
     {path: '/', component: MainPage, name: 'main'},
+    {path: '/signin', component: SignIn, name: 'signin'},
+    {path: '/registration', component: Registration, name: 'registration'},
     {path: '/search', component: Search, name: 'search'},
     {path: '/film/:id', component: Item, name: 'item'},
     {path: '/premier', component: Premier, name: 'premier', props: true},
     {path: '/news', component: News, name: 'news'},
     {path: '/notification', component: Notification, name: 'notification'},
-    {path: '/pinia', component: Pinia, name: 'pinia'},
-    {path: '/store', component: Store, name: 'store'},
     {path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound}
 ]
 
@@ -39,16 +40,17 @@ const router = createRouter({
 
 const pinia = createPinia()
 
-/*
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('https://evanstcom.github.io/filmoteka/firebase-messaging-sw.js')
-        .then((registration) => {
-            console.log('Service Worker registered with scope:', registration.scope);
-        }).catch((err) => {
-        console.log('Service Worker registration failed:', err);
-    });
-}
-*/
+const firebaseConfig = {
+    apiKey: "AIzaSyCy_tc_KY4ScmNfLNAYMYDEJ5zOxBtqrao",
+    authDomain: "filmoteka-evans.firebaseapp.com",
+    projectId: "filmoteka-evans",
+    storageBucket: "filmoteka-evans.firebasestorage.app",
+    messagingSenderId: "992624755114",
+    appId: "1:992624755114:web:0b27d6df080506b84eabd3",
+    measurementId: "G-0QTYQW628E"
+};
+// Initialize Firebase
+initializeApp(firebaseConfig);
 
 createApp(App).use(router).use(createMetaManager()).use(pinia).use(VueAwesomePaginate).mount('#app')
 

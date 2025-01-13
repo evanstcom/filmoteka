@@ -6,7 +6,7 @@
       }}
     </template>
   </metainfo>
-  <Loading v-if="isLoading"/>
+  <Loading v-if="isLoading" :full-screen="true"/>
   <section v-else class="container mx-auto pb-4">
     <div class="fixed z-50 top-4 left-4">
       <BackLink/>
@@ -118,7 +118,7 @@ import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import Loading from "@/components/Loading.vue";
 import BackLink from "@/components/BackLink.vue";
 import SliderList from "@/components/SliderList.vue";
-import ScrollToTop from "@/components/pages/ScrollToTop.vue";
+import ScrollToTop from "@/components/ScrollToTop.vue";
 import Title from "@/components/Title.vue";
 import StaffList from "@/components/StaffList.vue";
 import {useMeta} from "vue-meta";
