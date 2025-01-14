@@ -84,7 +84,8 @@ const firebaseConfig = {
     storageBucket: "filmoteka-evans.firebasestorage.app",
     messagingSenderId: "992624755114",
     appId: "1:992624755114:web:0b27d6df080506b84eabd3",
-    measurementId: "G-0QTYQW628E"
+    measurementId: "G-0QTYQW628E",
+    databaseURL: "https://filmoteka-evans-default-rtdb.europe-west1.firebasedatabase.app/"
 };
 
 router.beforeEach((to, from, next) => {

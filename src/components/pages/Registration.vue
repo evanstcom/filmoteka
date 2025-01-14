@@ -43,7 +43,7 @@
 
         <div>
           <button v-if="!authStore.loader" type="submit"
-                  @click="registration"
+                  @click.prevent="registration"
                   class="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Зарегистрироваться
           </button>
@@ -74,8 +74,7 @@ const password = ref('')
 
 const router = useRouter()
 
-const registration = async (e) => {
-  e.preventDefault()
+const registration = async () => {
   authStore.error = ''
   if (email.value && password.value && name.value) {
     await authStore.auth({email: email.value, password: password.value, displayName: name.value}, 'registration')
