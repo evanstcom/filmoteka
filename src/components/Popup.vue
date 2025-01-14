@@ -68,6 +68,9 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 import {ExclamationTriangleIcon} from '@heroicons/vue/24/outline'
+import {onMounted, ref} from "vue";
+import {getToken, onMessage} from "firebase/messaging";
+import {getMessaging} from "firebase/messaging/sw";
 
 defineProps({
   openPopup: {
@@ -79,9 +82,7 @@ defineProps({
     required: true
   }
 })
-import {onMounted, ref} from "vue";
-import {getToken, onMessage} from "firebase/messaging";
-import {getMessaging} from "firebase/messaging/sw";
+
 
 const token = ref(localStorage.getItem('token') ? localStorage.getItem('token') : '');
 const notification = ref('')

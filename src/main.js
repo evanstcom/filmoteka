@@ -16,26 +16,63 @@ import Search from '@/components/pages/Search.vue'
 import NotFound from '@/components/pages/NotFound.vue'
 import Premier from "@/components/pages/Premier.vue"
 import News from "@/components/pages/News.vue"
-import Notification from "@/components/pages/Notification.vue"
 import SignIn from "@/components/pages/SignIn.vue"
 import Registration from "@/components/pages/Registration.vue"
+import Profile from "@/components/pages/Profile.vue"
 import {initializeApp} from "firebase/app";
+import {useAuthStore} from "@/stores/auth.js";
 
 const routes = [
-    {path: '/', component: MainPage, name: 'main'},
-    {path: '/signin', component: SignIn, name: 'signin'},
-    {path: '/registration', component: Registration, name: 'registration'},
-    {path: '/search', component: Search, name: 'search'},
-    {path: '/film/:id', component: Item, name: 'item'},
-    {path: '/premier', component: Premier, name: 'premier', props: true},
-    {path: '/news', component: News, name: 'news'},
-    {path: '/notification', component: Notification, name: 'notification'},
-    {path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound}
+    {
+        path: '/', component: MainPage, name: 'main', meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/profile', component: Profile, name: 'profile', meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/signin', component: SignIn, name: 'signin', meta: {
+            auth: false
+        }
+    },
+    {
+        path: '/registration', component: Registration, name: 'registration', meta: {
+            auth: false
+        }
+    },
+    {
+        path: '/search', component: Search, name: 'search', meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/film/:id', component: Item, name: 'item', meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/premier', component: Premier, name: 'premier', props: true, meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/news', component: News, name: 'news', meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: {
+            auth: true
+        }
+    }
 ]
 
 const router = createRouter({
     history: createWebHistory('/'),
-    routes,
+    routes
 })
 
 const pinia = createPinia()
@@ -49,6 +86,19 @@ const firebaseConfig = {
     appId: "1:992624755114:web:0b27d6df080506b84eabd3",
     measurementId: "G-0QTYQW628E"
 };
+
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+
+    if (to.meta.auth && !authStore.userInfo.token) {
+        next('/signin')
+    } else if (!to.meta.auth && authStore.userInfo.token) {
+        next('/')
+    } else {
+        next();
+    }
+})
+
 // Initialize Firebase
 initializeApp(firebaseConfig);
 
