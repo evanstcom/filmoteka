@@ -77,8 +77,8 @@ defineProps({
 })
 
 const logout = () => {
-  authStore.logout()
-  router.push('/signin')
+  authStore.auth('logout')
+  router.push('/login')
 }
 
 </script>

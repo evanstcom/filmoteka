@@ -1,24 +1,27 @@
 <script setup>
 import Header from "@/components/layouts/Header.vue"
 import {useAuthStore} from "@/stores/auth.js";
-import {computed} from "vue";
-import {useRouter} from "vue-router";
+import {computed, onMounted} from "vue";
 
 const authStore = useAuthStore()
 
-const token = computed(() => authStore.userInfo.token)
+const token = computed(() => authStore.accessToken)
 
-const router = useRouter()
 const checkUser = () => {
-  const user = JSON.parse(localStorage.getItem('user'))
+  const accessToken = localStorage.getItem('accessToken')
+  const refreshToken = localStorage.getItem('refreshToken')
+  const user = localStorage.getItem('user')
+  if (accessToken && refreshToken && user) {
+    authStore.accessToken = accessToken
+  }
+  if (refreshToken) {
+    authStore.refreshToken = refreshToken
+  }
   if (user) {
-    authStore.userInfo.token = user.token
-    authStore.userInfo.refreshToken = user.refreshToken
-    authStore.userInfo.name = user.name
-    authStore.userInfo.expiresIn = user.expiresIn
+    authStore.userInfo = JSON.parse(user)
   }
 }
-checkUser()
+onMounted(() => checkUser())
 </script>
 
 
@@ -28,6 +31,3 @@ checkUser()
     <RouterView/>
   </main>
 </template>
-
-<style scoped lang="sass">
-</style>

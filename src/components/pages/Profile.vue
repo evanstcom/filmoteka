@@ -1,35 +1,26 @@
 <template>
   <section class="container px-1 flex flex-col gap-2 justify-between ">
     <Title title="Профиль"/>
-    <h2 class="text-xl mb-2">Добро пожаловать,
-      <span class="text-xl mb-2 text-orange-600">{{ authStore.userInfo.name }}</span></h2>
-
+    <h2 class="text-xl mb-2">Добро пожаловать в профиль </h2>
+    <h2 class="text-xl mb-2">{{ authStore.userInfo.name }} </h2>
   </section>
   <button @click="handleOpenPopup"
-          class=" absolute bottom-24 left-1/2 -translate-x-1/2 text-md bg-orange-600 px-4 py-2 rounded-md">Выйти
+          class="container absolute bottom-24 left-1/2 w-11/12 -translate-x-1/2 text-md bg-orange-600 py-2 rounded-md">
+    Выйти
   </button>
   <PopUpLogout :handle-click="handleOpenPopup" :open-popup="openPopup"/>
 </template>
 
 <script setup>
 import {ref} from 'vue'
-import {useAuthStore} from "@/stores/auth.js";
 import Title from "@/components/Title.vue";
 import PopUpLogout from "@/components/PopupLogout.vue";
-/*import {getAuth, validatePassword} from "firebase/auth";*/
+import {useAuthStore} from "@/stores/auth.js";
 
-const openPopup = ref(false)
 const authStore = useAuthStore()
-
+const openPopup = ref(false)
 const handleOpenPopup = () => {
   openPopup.value = !openPopup.value
 }
-
-/*
-onMounted(async () => {
-  const status = await validatePassword(getAuth(), '123456asdQ!')
-  console.log(status, status.isValid)
-})
-*/
 
 </script>

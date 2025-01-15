@@ -16,7 +16,7 @@ import Search from '@/components/pages/Search.vue'
 import NotFound from '@/components/pages/NotFound.vue'
 import Premier from "@/components/pages/Premier.vue"
 import News from "@/components/pages/News.vue"
-import SignIn from "@/components/pages/SignIn.vue"
+import Login from "@/components/pages/Login.vue"
 import Registration from "@/components/pages/Registration.vue"
 import Profile from "@/components/pages/Profile.vue"
 import {initializeApp} from "firebase/app";
@@ -34,7 +34,7 @@ const routes = [
         }
     },
     {
-        path: '/signin', component: SignIn, name: 'signin', meta: {
+        path: '/login', component: Login, name: 'login', meta: {
             auth: false
         }
     },
@@ -91,9 +91,9 @@ const firebaseConfig = {
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
 
-    if (to.meta.auth && !authStore.userInfo.token) {
-        next('/signin')
-    } else if (!to.meta.auth && authStore.userInfo.token) {
+    if (to.meta.auth && !authStore.accessToken) {
+        next('/login')
+    } else if (!to.meta.auth && authStore.accessToken) {
         next('/')
     } else {
         next();

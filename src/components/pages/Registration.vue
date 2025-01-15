@@ -77,7 +77,7 @@ const router = useRouter()
 const registration = async () => {
   authStore.error = ''
   if (email.value && password.value && name.value) {
-    await authStore.auth({email: email.value, password: password.value, displayName: name.value}, 'registration')
+    await authStore.auth('registration', {email: email.value, password: password.value, displayName: name.value})
     await router.push('/')
   } else {
     authStore.error = 'Заполните все поля'
