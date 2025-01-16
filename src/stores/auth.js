@@ -83,6 +83,23 @@ export const useAuthStore = defineStore('auth', () => {
 
     }
 
+    const updateUser = async (newName) => {
+        loader.value = true
+        const firebaseAuth = getAuth()
+        console.log(newName)
+        await updateProfile(firebaseAuth.currentUser, {displayName: newName}).then(
+            () => {
+                console.log('User name updated successfully')
+                userInfo.value.name = newName
+                localStorage.setItem('user', JSON.stringify(userInfo.value))
+            },
+            (error) => {
+                console.log(error)
+            }
+        )
+        loader.value = false
+    }
+
     const setUser = (data) => {
         userInfo.value = {
             email: data.email,
@@ -124,7 +141,7 @@ export const useAuthStore = defineStore('auth', () => {
         }
         throw error.value
     }
-    return {auth, userInfo, accessToken, refreshToken, error, loader}
+    return {auth, userInfo, accessToken, refreshToken, updateUser, error, loader}
 })
 
 /*

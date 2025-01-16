@@ -16,7 +16,7 @@
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" action="#" method="POST">
         <div>
-          <label for="email" class="block text-sm/6 font-medium">Ваше имя</label>
+          <label for="name" class="block text-sm/6 font-medium">Ваше имя</label>
           <div class="mt-2">
             <input v-model="name" type="text" name="name" id="name" autocomplete="name" required
                    class="block w-full rounded-md bg-gray-900 px-3 py-1.5 text-base outline outline-1 outline-gray-900 -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
