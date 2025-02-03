@@ -1,34 +1,32 @@
 <template>
-  <header
-      class="fixed bottom-0 z-50 mx-auto flex items-center justify-center py-8 h-14 w-full mb-4">
-    <div class="absolute left-4  bg-opacity-50 bg-gray-900 p-4 rounded-full"
-         @click="handleClick">
-      <img alt="notification" class="w-6 " src='/bell.svg'>
-      <Popup v-if="openPopup" :handleClick="handleClick" :openPopup="openPopup"/>
-    </div>
+  <header id="menu"
+          class="fixed bottom-0 z-50 mx-auto flex items-start justify-center w-full bg-gray-950 bg-opacity-80 ">
     <nav
-        class="flex justify-around items-center bg-opacity-50 container bg-gray-900 p-4 w-48 gap-4 rounded-2xl relative">
-      <RouterLink to="/">
-        <img alt="home" class="w-6 " src='/home.svg'>
+        class="flex justify-between items-center container px-4 pb-6 pt-2 w-full gap-4">
+      <RouterLink to="/" class="flex flex-col items-center gap-1">
+        <HomeIcon class="w-6" alt="home"/>
+        <span class="text-xs">Главное</span>
       </RouterLink>
-      <RouterLink to="/search">
-        <img alt="home" class="w-6 " src='/search.svg'>
+      <RouterLink to="/favorites" class="flex flex-col items-center gap-1">
+        <BookmarkIcon class="w-6" alt="favorites"/>
+        <span class="text-xs">Мое</span>
       </RouterLink>
-      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-7 bg-orange-600 "></div>
+      <RouterLink to="/search" class="flex flex-col items-center gap-1"
+                  @click="searchStore.memory=''; searchStore.memoryFilms=[]">
+        <MagnifyingGlassIcon class="w-6" alt="search"/>
+        <span class="text-xs">Поиск</span>
+      </RouterLink>
+      <RouterLink to="/profile" class="flex flex-col items-center gap-1">
+        <UserIcon class="w-6" alt="profile"/>
+        <span class="text-xs">Профиль</span>
+      </RouterLink>
     </nav>
-    <RouterLink to="/profile" class="absolute right-4  bg-opacity-50 bg-gray-900 p-4 rounded-full">
-      <img alt=profile class="w-6 " src='/profile.svg'>
-    </RouterLink>
-
   </header>
 </template>
-<script setup lang="ts">
-import Popup from "@/components/Popup.vue";
-import {ref} from "vue";
 
-const openPopup = ref(false)
+<script setup>
+import {HomeIcon, UserIcon, MagnifyingGlassIcon, BookmarkIcon} from "@heroicons/vue/24/outline";
+import {useSearchStore} from "@/stores/search.js";
 
-const handleClick = () => {
-  openPopup.value = !openPopup.value
-}
+const searchStore = useSearchStore();
 </script>

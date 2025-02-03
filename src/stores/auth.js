@@ -8,14 +8,18 @@ import {
     updateProfile,
     signOut
 } from 'firebase/auth'
+import {getToken, onMessage} from "firebase/messaging";
+import {getMessaging} from "firebase/messaging/sw";
+import {useRouter} from "vue-router";
 
 export const useAuthStore = defineStore('auth', () => {
     const error = ref('')
-
+    const router = useRouter()
     const loader = ref(false)
 
     const accessToken = ref('')
     const refreshToken = ref('')
+    const notificationToken = ref('');
 
     const userInfo = ref({
         email: '',
@@ -26,21 +30,24 @@ export const useAuthStore = defineStore('auth', () => {
         const firebaseAuth = getAuth()
         switch (type) {
             case 'logout':
-
                 signOut(firebaseAuth)
-                    .then(() => console.log("Logout OK"))
+                    .then(() => {
+                        localStorage.removeItem('accessToken')
+                        localStorage.removeItem('refreshToken')
+                        localStorage.removeItem('user')
+                        accessToken.value = ''
+                        refreshToken.value = ''
+                        userInfo.value = {
+                            email: '',
+                            userId: '',
+                            name: ''
+                        }
+                        router.push('/login')
+                        console.log("Logout OK")
+                    })
                     .catch((e) => console.log(e))
-                localStorage.removeItem('accessToken')
-                localStorage.removeItem('refreshToken')
-                localStorage.removeItem('user')
-                accessToken.value = ''
-                refreshToken.value = ''
-                userInfo.value = {
-                    email: '',
-                    userId: '',
-                    name: ''
-                }
                 break
+
             case 'login':
                 try {
                     const {user} = await signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
@@ -60,7 +67,6 @@ export const useAuthStore = defineStore('auth', () => {
             case 'registration':
                 try {
                     const {user} = await createUserWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
-                    console.log(user)
                     if (user) {
                         accessToken.value = user.accessToken
                         refreshToken.value = user.refreshToken
@@ -74,7 +80,6 @@ export const useAuthStore = defineStore('auth', () => {
                     showError(e.code)
                 } finally {
                     loader.value = false
-                    console.log(firebaseAuth.currentUser)
                 }
                 break
             default:
@@ -141,66 +146,39 @@ export const useAuthStore = defineStore('auth', () => {
         }
         throw error.value
     }
-    return {auth, userInfo, accessToken, refreshToken, updateUser, error, loader}
+    const getTokenNotification = () => {
+        const localToken = localStorage.getItem('notificationToken')
+        const messaging = getMessaging();
+
+        getToken(messaging, {vapidKey: 'BPLWoA5EryQNWtQIwl6EnJjvpufIc4h2QlIc6YuvB3TGmwB-whOjddQLHS9afM6-0J62JvQQ8U7KkdE6PUATyBk'}).then((currentToken) => {
+            if (currentToken !== localToken) {
+                notificationToken.value = currentToken
+                localStorage.setItem('notificationToken', currentToken)
+
+            } else {
+                notificationToken.value = localToken
+                console.log('Token is not changed');
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+            notificationToken.value = ''
+            localStorage.removeItem('notificationToken')
+        });
+
+        onMessage(messaging, (payload) => {
+            console.log('Message received. ', payload);
+        });
+    }
+
+    return {
+        auth,
+        userInfo,
+        accessToken,
+        refreshToken,
+        updateUser,
+        error,
+        loader,
+        notificationToken,
+        getTokenNotification
+    }
 })
-
-/*
-
-const urlType = type === 'login' ? 'signInWithPassword' : 'signUp'
-error.value = ''
-loader.value = true
-try {
-    const {data} = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:${urlType}?key=${apiKey}`, {
-        ...payload,
-        returnSecureToken: true
-    })
-    userInfo.value = {
-        email: data.email,
-        token: data.idToken,
-        userId: data.localId,
-        refreshToken: data.refreshToken,
-        expiresIn: data.expiresIn,
-        name: data.displayName
-    }
-    localStorage.setItem('user', JSON.stringify({
-        token: userInfo.value.token,
-        refreshToken: userInfo.value.refreshToken,
-        name: userInfo.value.name,
-        expiresIn: userInfo.value.expiresIn,
-        email: userInfo.value.email
-    }))
-    console.log(userInfo.value)
-} catch (e) {
-    switch (e.response.data.error.message) {
-        case 'EMAIL_EXISTS':
-            error.value = 'Такой email уже зарегистрирован'
-            break
-        case 'WEAK_PASSWORD : Password should be at least 6 characters':
-            error.value = 'Слишком слабый пароль, минимум 6 символов'
-            break
-        case 'OPERATION_NOT_ALLOWED':
-            error.value = 'Регистрация недоступна'
-            break
-        case 'TOO_MANY_ATTEMPTS_TRY_LATER':
-            error.value = 'Слишком много попыток входа. Попробуйте позже'
-            break
-        case 'EMAIL_NOT_FOUND':
-            error.value = 'Такой пользователь не найден'
-            break
-        case 'INVALID_PASSWORD':
-            error.value = 'Неверный логин или пароль'
-            break
-        case 'INVALID_LOGIN_CREDENTIALS':
-            error.value = 'Неверный логин или пароль'
-            break
-        case 'USER_DISABLED':
-            error.value = 'Учетная запись неактивна'
-            break
-        default:
-            error.value = 'Что-то пошло не так'
-            break
-    }
-    throw e.value
-} finally {
-    loader.value = false
-}*/

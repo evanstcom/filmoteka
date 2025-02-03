@@ -39,29 +39,31 @@
                   </div>
                 </div>
               </div>
-              <div class="bg-gray-900 px-4 pb-4 pt-4">
-                <label for="name" class=" text-sm/6 font-medium">Новое имя</label>
-                <div class="mt-2">
-                  <input v-model="name" type="text" name="name" id="name" autocomplete="name" required
-                         class="w-full px-3 rounded-md bg-gray-900 py-1.5 text-base outline outline-1 outline-white -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
+              <form class="space-y-1 bg-gray-900" action="#" method="POST">
+                <div class="bg-gray-900 px-4 pb-4 pt-2">
+                  <label for="name" class=" text-sm/6 font-medium">Новое имя</label>
+                  <div class="mt-2">
+                    <input v-model="name" type="text" name="name" id="name" autocomplete="name" required
+                           class="w-full px-3 rounded-md bg-gray-900 py-1.5 text-base outline outline-1 outline-white -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
+                  </div>
                 </div>
-              </div>
-              <div class="bg-gray-900 px-4 py-4 items-center flex flex-col ">
-                <button
-                    v-if="!authStore.loader"
-                    type="button"
-                    class="inline-flex w-full justify-center rounded-md bg-orange-600 outline-none py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 sm:w-auto"
-                    @click="async() =>{
+                <div class="bg-gray-900 px-4 pb-4 pt-2 items-center flex flex-col ">
+                  <button
+                      v-if="!authStore.loader"
+                      type="button"
+                      class="inline-flex w-full justify-center rounded-md bg-orange-600 outline-none py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 sm:w-auto"
+                      @click="async() =>{
                     await updateUser()
                     if (!error) handleClick()}">
-                  Изменить имя
-                </button>
-                <Loading v-else :full-screen="false"/>
-                <button type="button"
-                        class="mt-3 inline-flex text-center justify-center rounded-md w-full  py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-900 sm:w-auto"
-                        @click="handleClick" ref="cancelButtonRef">Закрыть без изменений
-                </button>
-              </div>
+                    Сохранить
+                  </button>
+                  <Loading v-else :full-screen="false"/>
+                  <button type="submit"
+                          class="mt-3 inline-flex text-center justify-center rounded-md w-full  py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-900 sm:w-auto"
+                          @click.prevent="handleClick" ref="cancelButtonRef">Закрыть
+                  </button>
+                </div>
+              </form>
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -79,16 +81,13 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 import {useAuthStore} from "@/stores/auth.js";
-import {useRouter} from "vue-router";
 import {ref} from "vue";
 import Loading from "@/components/Loading.vue";
 import {ExclamationTriangleIcon} from "@heroicons/vue/24/outline/index.js";
 
 const name = ref('')
 
-const error = ref('123')
-
-const router = useRouter()
+const error = ref('')
 
 const authStore = useAuthStore()
 
@@ -106,6 +105,8 @@ defineProps({
 const updateUser = async () => {
   if (!name.value) {
     return error.value = 'Имя не может быть пустым'
+  } else if (name.value === authStore.userInfo.name) {
+    return error.value = 'Имя не изменилось'
   } else {
     error.value = ''
     await authStore.updateUser(name.value)

@@ -26,20 +26,41 @@
                 class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all flex flex-col w-full sm:my-8">
               <div class="bg-gray-900 px-4 pb-4 pt-4">
                 <div class="items-center justify-center">
+                  <div v-if="!authStore.notificationToken"
+                       class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-gray-800 sm:size-10">
+                    <BellSlashIcon class="size-6 text-red-600" aria-hidden="true"/>
+                  </div>
+                  <div v-else
+                       class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-gray-800 sm:size-10">
+                    <BellIcon class="size-6 text-green-600" aria-hidden="true"/>
+                  </div>
                   <div class="mt-3">
-                    <DialogTitle as="h3" class="text-base text-center">Вы хотите выйти из профиля?
+                    <DialogTitle v-if="!authStore.notificationToken" as="h3"
+                                 class="text-base font-semibold text-center">
+                      Уведомления не разрешены. Включите их в настройках.
                     </DialogTitle>
+                    <DialogTitle v-else as="h3" class="text-base text-center">Уведомления разрешены
+                    </DialogTitle>
+                    <div v-if="authStore.notificationToken" class="mt-2">
+                      <div class="text-sm text-gray-500 break-words text-center">{{
+                          authStore.notificationToken
+                        }}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="bg-gray-900 px-4 py-4 items-center flex flex-col ">
-                <button type="button"
+                <button v-if="authStore.notificationToken && !copyLoader && !copyDone"
+                        type="button"
                         class="inline-flex w-full justify-center rounded-md  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 outline-none px-3 py-2 text-sm text-white shadow-sm hover:bg-orange-500 sm:w-auto"
-                        @click="handleClick">Остаться
+                        @click="copyText">Скопировать токен
                 </button>
+                <Loading v-if="copyLoader" :full-screen="false"/>
+                <CheckIcon v-if="copyDone" class="size-9 text-green-600" aria-hidden="true"/>
                 <button type="button"
                         class="mt-3 inline-flex text-center justify-center border-none px-3 py-2 text-sm"
-                        @click="logout" ref="cancelButtonRef">Выйти из профиля
+                        @click="handleClick" ref="cancelButtonRef">Закрыть
                 </button>
               </div>
             </DialogPanel>
@@ -58,12 +79,10 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/vue'
+import {BellIcon, BellSlashIcon, CheckIcon} from '@heroicons/vue/24/outline'
 import {useAuthStore} from "@/stores/auth.js";
-import {useRouter} from "vue-router";
-
-const router = useRouter()
-
-const authStore = useAuthStore()
+import {ref} from "vue";
+import Loading from "@/components/Loading.vue";
 
 defineProps({
   openPopup: {
@@ -76,11 +95,25 @@ defineProps({
   }
 })
 
-const logout = () => {
-  authStore.auth('logout')
-  router.push('/login')
-}
 
+const authStore = useAuthStore();
+
+const copyLoader = ref(false)
+const copyDone = ref(false)
+
+const copyText = () => {
+  copyLoader.value = true
+  navigator.clipboard.writeText(authStore.notificationToken).then(() => {
+    console.log('Текст скопирован в буфер обмена');
+  })
+  setTimeout(() => {
+    copyLoader.value = false
+    copyDone.value = true
+    setTimeout(() => {
+      copyDone.value = false
+    }, 500)
+  }, 250)
+}
 </script>
 
 

@@ -5,28 +5,25 @@
       :pagination="{
       type: 'progressbar'
     }"
-      :navigation="true"
+      :navigation="false"
       :spaceBetween="30"
       :modules="modules"
       class="mySwiper mb-8"
   >
-    <swiper-slide v-for="item in news" :key="item.kinopoiskId">
-      <div class="relative rounded-md overflow-hidden bg-cover h-48 w-full"
-           :style="`background-image: url(${item.imageUrl})`">
-        <div class="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
-        <!--        <img class="w-full opacity-50 rounded-md" :src="item.imageUrl" :alt="item.title">-->
-        <!--        <p class="absolute bottom-4 left-4 text-xs mb-2">{{ item.description }}</p>-->
-        <h2 class="absolute bottom-4 left-4 text-xs w-1/2">{{ item.title }}</h2>
-        <a :href="item.url"
-           class="absolute bottom-4 right-4 text-xs bg-orange-600 px-4 py-2 rounded-md">Подробнее</a>
+    <swiper-slide v-for="news in newsStore.newsOnMain" :key="news.item.kinopoiskId">
+      <div class="overflow-hidden bg-cover h-48 w-full"
+           :style="`background-image: url(${news.item.imageUrl})`">
+        <div class="absolute top-0 left-0 w-full h-full bg-black opacity-20"></div>
+        <h2 class="absolute bottom-4 left-4 text-xs w-1/2">{{ news.item.title }}</h2>
+        <a :href="news.item.url"
+           class="absolute bottom-4 right-4 text-xs bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-4 py-2 rounded-md">Подробнее</a>
       </div>
-
     </swiper-slide>
   </swiper>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue"
+import {onMounted} from "vue"
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
@@ -37,23 +34,9 @@ import {useNewsStore} from "@/stores/news.js";
 const modules = [Pagination, Navigation]
 const newsStore = useNewsStore()
 
-const news = ref([{
-  kinopoiskId: 4008963,
-  imageUrl: "https://avatars.mds.yandex.net/get-kinopoisk-post-thumb/1348084/b32d2b292f0654e1a9e80aac5437a33a/orig",
-  title: "Вышла «окончательная версия» порнопеплума «Калигула». Как она сделана и почему нам не понравилась",
-  description: "На Blu-ray выходит «окончательная версия» (The Ultimate Cut) «Калигулы» Тинто Брасса. Вспоминаем историю создания кровавого порнопеплума и подробно рассказываем про его редукс, максимально близкий к исходному сценарию Гора Видала. ",
-  url: "https://www.kinopoisk.ru/api/webview/post/4008963",
-  publishedAt: "2024-01-15T13:56:48"
-
-}])
-
-
-onMounted(async () => {
-  if (!newsStore.newsData.length) {
-    await newsStore.getNews()
-    news.value = newsStore.newsData
-  } else {
-    news.value = newsStore.newsData
+onMounted(() => {
+  if (!newsStore.newsOnMain.length) {
+    newsStore.getLastNews()
   }
 })
 </script>

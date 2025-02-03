@@ -28,7 +28,7 @@
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm/6 font-medium">Пароль</label>
             <div class="text-sm">
-              <a href="#" class="font-semibold text-orange-600 hover:text-orange-500">Забыли пароль?</a>
+              <a href="#" class="text-orange-600 hover:text-orange-500">Забыли пароль?</a>
             </div>
           </div>
           <div class="mt-2">
@@ -41,7 +41,7 @@
         <div>
           <button v-if="!authStore.loader" type="submit"
                   @click="signIn"
-                  class="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  class="flex w-full justify-center rounded-md  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-3 py-1.5 text-sm/6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Войти
           </button>
           <Loading v-else :full-screen="false"/>
@@ -50,7 +50,7 @@
       <p class="mt-10 text-center text-sm/6 text-gray-400">
         Нет аккаунта?
         {{ ' ' }}
-        <RouterLink to="/registration" class="font-semibold text-orange-600 hover:text-orange-500">Зарегистрироваться
+        <RouterLink to="/registration" class="text-orange-600 hover:text-orange-500">Зарегистрироваться
         </RouterLink>
       </p>
     </div>

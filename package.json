@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@headlessui/vue": "^1.7.23",
     "@heroicons/vue": "^2.2.0",
+    "@takuma-ru/vue-swipe-modal": "^5.0.0",
     "axios": "^1.7.7",
     "firebase": "^11.1.0",
     "pinia": "^2.2.6",

@@ -9,7 +9,7 @@
   >
     <swiper-slide v-for="film in films" :key="film.kinopoiskId ? film.kinopoiskId : film.filmId"
                   class="flex-1">
-      <SliderItem :film="film"/>
+      <SliderItem :film="film.item ? film.item : film"/>
     </swiper-slide>
   </swiper>
 </template>
@@ -23,6 +23,11 @@ import SliderItem from "@/components/SliderItem.vue";
 const modules = [FreeMode]
 
 defineProps({
-  films: Array
+  films: Array,
+  search: {
+    type: Boolean,
+    default: false,
+    required: false
+  }
 })
 </script>

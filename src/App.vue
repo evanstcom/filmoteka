@@ -1,42 +1,46 @@
 <script setup>
 import Header from "@/components/layouts/Header.vue"
 import {useAuthStore} from "@/stores/auth.js";
-import {computed, onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {useRouter} from "vue-router";
+import Loading from "@/components/Loading.vue";
 
 const authStore = useAuthStore()
 
+const router = useRouter()
 const token = computed(() => authStore.accessToken)
+const notificationToken = ref(localStorage.getItem('notificationToken') ? localStorage.getItem('notificationToken') : '');
 
 const auth = getAuth()
+
+const loading = ref(true)
 
 const checkUser = () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log("User logged in")
+      loading.value = false
     } else {
       console.log("User logged out")
+      authStore.auth('logout')
     }
   })
-  const accessToken = localStorage.getItem('accessToken')
-  const refreshToken = localStorage.getItem('refreshToken')
-  const user = localStorage.getItem('user')
-  if (accessToken) {
-    authStore.accessToken = accessToken
-  }
-  if (refreshToken) {
-    authStore.refreshToken = refreshToken
-  }
-  if (user) {
-    authStore.userInfo = JSON.parse(user)
-  }
+  authStore.accessToken = localStorage.getItem('accessToken')
+  authStore.notificationToken = localStorage.getItem('notificationToken')
+  authStore.refreshToken = localStorage.getItem('refreshToken')
+  authStore.userInfo = JSON.parse(localStorage.getItem('user'))
 }
-onMounted(() => checkUser())
+
+onMounted(() => {
+  checkUser()
+  loading.value = false
+})
 </script>
 
 
 <template>
-  <Header v-if="token"/>
+  <Header v-show="token"/>
   <main class="mt-2">
     <RouterView/>
   </main>
