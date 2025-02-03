@@ -16,7 +16,7 @@
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" action="#" method="POST">
         <div>
-          <label for="email" class="block text-sm/6 font-medium">Ваше имя</label>
+          <label for="name" class="block text-sm/6 font-medium">Ваше имя</label>
           <div class="mt-2">
             <input v-model="name" type="text" name="name" id="name" autocomplete="name" required
                    class="block w-full rounded-md bg-gray-900 px-3 py-1.5 text-base outline outline-1 outline-gray-900 -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
@@ -44,7 +44,7 @@
         <div>
           <button v-if="!authStore.loader" type="submit"
                   @click.prevent="registration"
-                  class="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  class="flex w-full justify-center rounded-md  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-3 py-1.5 text-sm/6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Зарегистрироваться
           </button>
           <Loading v-else :full-screen="false"/>
@@ -53,7 +53,7 @@
       <p class="mt-10 text-center text-sm text-gray-400">
         Есть аккаунт?
         {{ ' ' }}
-        <RouterLink to="/signin" class="font-semibold text-orange-600 hover:text-orange-500">Войти</RouterLink>
+        <RouterLink to="/signin" class="text-orange-600 hover:text-orange-500">Войти</RouterLink>
       </p>
     </div>
   </div>
@@ -77,7 +77,7 @@ const router = useRouter()
 const registration = async () => {
   authStore.error = ''
   if (email.value && password.value && name.value) {
-    await authStore.auth({email: email.value, password: password.value, displayName: name.value}, 'registration')
+    await authStore.auth('registration', {email: email.value, password: password.value, displayName: name.value})
     await router.push('/')
   } else {
     authStore.error = 'Заполните все поля'

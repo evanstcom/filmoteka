@@ -84,7 +84,7 @@ defineProps({
 })
 
 
-const token = ref(localStorage.getItem('token') ? localStorage.getItem('token') : '');
+const token = ref(localStorage.getItem('token'));
 const notification = ref('')
 const notificationRequest = ref(false)
 

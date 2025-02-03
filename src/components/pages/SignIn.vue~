@@ -75,7 +75,6 @@ const signIn = async (e) => {
   authStore.error = ''
   if (email.value && password.value) {
     await authStore.auth({email: email.value, password: password.value}, 'login')
-    await router.push('/')
   } else {
     authStore.error = 'Заполните все поля'
   }

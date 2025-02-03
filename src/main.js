@@ -3,7 +3,7 @@ import {createApp} from 'vue'
 import {createWebHistory, createRouter} from 'vue-router'
 
 import {createMetaManager} from 'vue-meta'
-
+import {autoAnimatePlugin} from "@formkit/auto-animate/vue";
 import {createPinia} from "pinia";
 
 import VueAwesomePaginate from "vue-awesome-paginate";
@@ -15,10 +15,12 @@ import MainPage from '@/components/pages/MainPage.vue'
 import Search from '@/components/pages/Search.vue'
 import NotFound from '@/components/pages/NotFound.vue'
 import Premier from "@/components/pages/Premier.vue"
+import Top from "@/components/pages/Top.vue"
 import News from "@/components/pages/News.vue"
-import SignIn from "@/components/pages/SignIn.vue"
+import Login from "@/components/pages/Login.vue"
 import Registration from "@/components/pages/Registration.vue"
 import Profile from "@/components/pages/Profile.vue"
+import Favorites from "@/components/pages/Favorites.vue"
 import {initializeApp} from "firebase/app";
 import {useAuthStore} from "@/stores/auth.js";
 
@@ -34,7 +36,12 @@ const routes = [
         }
     },
     {
-        path: '/signin', component: SignIn, name: 'signin', meta: {
+        path: '/favorites', component: Favorites, name: 'favorites', meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/login', component: Login, name: 'login', meta: {
             auth: false
         }
     },
@@ -55,6 +62,11 @@ const routes = [
     },
     {
         path: '/premier', component: Premier, name: 'premier', props: true, meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/top', component: Top, name: 'top', props: true, meta: {
             auth: true
         }
     },
@@ -91,9 +103,9 @@ const firebaseConfig = {
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
 
-    if (to.meta.auth && !authStore.userInfo.token) {
-        next('/signin')
-    } else if (!to.meta.auth && authStore.userInfo.token) {
+    if (to.meta.auth && !authStore.accessToken) {
+        next('/login')
+    } else if (!to.meta.auth && authStore.accessToken) {
         next('/')
     } else {
         next();
@@ -103,6 +115,6 @@ router.beforeEach((to, from, next) => {
 // Initialize Firebase
 initializeApp(firebaseConfig);
 
-createApp(App).use(router).use(createMetaManager()).use(pinia).use(VueAwesomePaginate).mount('#app')
+createApp(App).use(router).use(createMetaManager()).use(autoAnimatePlugin).use(pinia).use(VueAwesomePaginate).mount('#app')
 
 

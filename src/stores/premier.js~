@@ -31,7 +31,7 @@ export const usePremierStore = defineStore('premier', () => {
                 "Content-Type": "application/json",
             },
         })
-        premiers.value = data.items
+        premier.value = data.items
     }
 
     return {premiers, getPremiers}

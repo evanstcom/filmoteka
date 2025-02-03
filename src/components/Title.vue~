@@ -1,0 +1,33 @@
+<template>
+  <div class="flex justify-between mb-4 items-center">
+    <h2 class="text-2xl">{{ title }}</h2>
+    <RouterLink v-if="showAll" :to="{name:link}" class="text-orange-600 flex gap-1.5 pt-1">
+      <span class="text-sm leading-none pb-0.5">все</span>
+      <img src="/right_arrow.svg" alt="all" class="w-3">
+    </RouterLink>
+  </div>
+</template>
+
+<script setup>
+import {RouterLink} from "vue-router";
+
+defineProps({
+  title: {
+    type: String,
+    default: '',
+    required: true
+  },
+  showAll: {
+    type: Boolean,
+    default: false,
+  },
+  link: {
+    type: String,
+    default: ''
+  }
+})
+</script>
+
+<style scoped>
+
+</style>

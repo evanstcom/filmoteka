@@ -1,5 +1,5 @@
 <template>
-  <div @click="backPage" class="cursor-pointer h-8 inline-block bg-gray-900 bg-opacity-50 p-2 rounded-md">
+  <div @click="backPage" class="cursor-pointer h-8 inline-block p-2 rounded-md">
     <img src="/right_arrow.svg" alt="back" class="rotate-180 w-4">
   </div>
 </template>

@@ -27,18 +27,18 @@
               <div class="bg-gray-900 px-4 pb-4 pt-4">
                 <div class="items-center justify-center">
                   <div class="mt-3">
-                    <DialogTitle as="h3" class="text-base font-semibold text-center">Вы хотите выйти из профиля?
+                    <DialogTitle as="h3" class="text-base text-center">Вы хотите выйти из профиля?
                     </DialogTitle>
                   </div>
                 </div>
               </div>
               <div class="bg-gray-900 px-4 py-4 items-center flex flex-col ">
                 <button type="button"
-                        class="inline-flex w-full justify-center rounded-md bg-orange-600 outline-none px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 sm:w-auto"
+                        class="inline-flex w-full justify-center rounded-md  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 outline-none px-3 py-2 text-sm text-white shadow-sm hover:bg-orange-500 sm:w-auto"
                         @click="handleClick">Остаться
                 </button>
                 <button type="button"
-                        class="mt-3 inline-flex text-center justify-center rounded-md w-full px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-900 sm:w-auto"
+                        class="mt-3 inline-flex text-center justify-center border-none px-3 py-2 text-sm"
                         @click="logout" ref="cancelButtonRef">Выйти из профиля
                 </button>
               </div>
@@ -77,8 +77,8 @@ defineProps({
 })
 
 const logout = () => {
-  authStore.logout()
-  router.push('/signin')
+  authStore.auth('logout')
+  router.push('/login')
 }
 
 </script>

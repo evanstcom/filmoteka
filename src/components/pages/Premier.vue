@@ -5,9 +5,22 @@
       <BackLink/>
       <Title title="Премьеры этого месяца"/>
     </div>
-    <div class="grid-cols-2 grid gap-1">
-      <SliderItem :film="film" v-for="film in premiersOnPage" :key="film.kinopoiskId ? film.kinopoiskId : film.filmId"
-                  size="w-full h-72"/>
+    <div class="relative py-0.5" v-for="film in premierStore.premiers">
+      <RouterLink :to="{ name: 'item', params: {id: film.item.kinopoiskId ? film.item.kinopoiskId : film.item.filmId}}"
+                  class="flex p-0.5 gap-1 mr-8"
+      >
+        <div class="mb-1 image bg-contain min-w-12">
+          <img class="mb-1 h-full w-12"
+               :src="film.item.posterUrlPreview ? film.item.posterUrlPreview : film.item.posterUrl"
+               :alt="film.item.nameRu ? film.item.nameRu : film.item.nameEn">
+        </div>
+        <div class="pr-8">
+          <h3 class="text-xs mb-1">{{ film.item.nameRu ? film.item.nameRu : film.item.nameEn }}</h3>
+          <h4 v-show="film.item.year && film.item.year !== 'null'" class="text-xs text-slate-400 mb-1">{{
+              film.item.year
+            }}</h4>
+        </div>
+      </RouterLink>
     </div>
     <div class="h-20"></div>
     <ScrollToTop/>
@@ -17,25 +30,25 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import Loading from "@/components/Loading.vue";
-import SliderItem from "@/components/SliderItem.vue";
 import BackLink from "@/components/BackLink.vue";
-import {usePremierStore} from "@/stores/premier.js";
+import {usePremiersStore} from "@/stores/premiers.js";
 import Title from "@/components/Title.vue";
 import ScrollToTop from "@/components/ScrollToTop.vue";
+import {RouterLink} from "vue-router";
 
-const premierStore = usePremierStore()
-const premiersOnPage = ref([])
+const premierStore = usePremiersStore()
 const isLoading = ref(true)
 
 
-onMounted(async () => {
+onMounted(() => {
   if (!premierStore.premiers.length) {
-    await premierStore.getPremiers()
-    premiersOnPage.value = premierStore.premiers
-  } else {
-    premiersOnPage.value = premierStore.premiers
+    premierStore.getPremiers()
   }
   isLoading.value = false
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 })
 
 </script>

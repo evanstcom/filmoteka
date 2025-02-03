@@ -1,0 +1,20 @@
+@tailwind base
+@tailwind components
+@tailwind utilities
+
+@font-face
+  font-family: 'Montserrat'
+  src: url('./fonts/Montserrat-Regular.ttf')
+
+*
+  padding: 0
+  margin: 0
+  box-sizing: border-box
+  font-family: 'Montserrat', sans-serif
+
+body
+  background-color: #000
+  color: #fff
+
+  input:-webkit-autofill, input:-webkit-autofill:focus
+    background-color: red
