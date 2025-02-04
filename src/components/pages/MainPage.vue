@@ -7,7 +7,7 @@
     <Title title="Последние новости" :show-all="true" link="news"/>
     <NewsItem/>
     <Title title="Премьеры этого месяца" :show-all="true" link="premier"/>
-    <SliderList :films="premiersStore.premiers.slice(0, 20)"/>
+    <SliderList :films="premiersStore.premiers.slice(0, 20)" class="mb-2"/>
     <Title title="Топ 250" :show-all="true" link="top"/>
     <SliderList :films="premiersStore.topOnMain"/>
     <div class="h-20 flex justify-end items-end">
@@ -18,9 +18,9 @@
 <script setup>
 import {onMounted} from "vue";
 import SliderList from "../SliderList.vue";
-import Loading from "../Loading.vue";
+import Loading from "../ui/Loading.vue";
 import NewsItem from "../NewsItem.vue";
-import Title from "@/components/Title.vue";
+import Title from "@/components/ui/Title.vue";
 import {useAuthStore} from "@/stores/auth.js";
 import {useMeta} from "vue-meta";
 import {usePremiersStore} from "@/stores/premiers.js";

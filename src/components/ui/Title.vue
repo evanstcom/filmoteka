@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between mb-3 pt-0.5">
-    <h2 class="text-lg">{{ title }}</h2>
-    <RouterLink v-if="showAll" :to="{name:link}" class="text-orange-600 flex gap-1.5 pt-1">
+    <h2 class="text-lg font-semibold">{{ title }}</h2>
+    <RouterLink v-if="showAll" :to="{name:link}" class="text-orange-600 font-semibold flex gap-1.5 pt-1">
       <span class="text-sm leading-none pb-0.5">все</span>
     </RouterLink>
   </div>

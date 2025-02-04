@@ -4,7 +4,7 @@ import {useAuthStore} from "@/stores/auth.js";
 import {computed, onMounted, ref} from "vue";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useRouter} from "vue-router";
-import Loading from "@/components/Loading.vue";
+import Loading from "@/components/ui/Loading.vue";
 
 const authStore = useAuthStore()
 

@@ -49,6 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
                 break
 
             case 'login':
+                loader.value = true
                 try {
                     const {user} = await signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
                     if (user) {

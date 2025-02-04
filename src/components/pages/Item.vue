@@ -7,13 +7,13 @@
     </template>
   </metainfo>
   <Loading v-if="isLoading" :full-screen="true"/>
-  <main v-else class="bg-black">
+  <main v-else class="bg-white">
     <div class="flex justify-center fixed -z-10 -mt-96 pt-5">
       <img class="w-1/2" :src="item.posterUrl" :alt="item.nameRu ? item.nameRu : item.nameOriginal">
     </div>
     <section class="container mt-96 mx-auto pb-4 relative">
       <div
-          class="absolute -top-20 bg-gradient-to-t from-black to-transparent w-full h-20  z-30">
+          class="absolute -top-20 bg-gradient-to-t from-white to-transparent w-full h-20  z-30">
       </div>
       <div class="fixed z-50 top-4 left-4">
         <BackLink/>
@@ -39,34 +39,34 @@
             }}
           </div>
           <div v-else class="text-sm">{{ item.year }}</div>
-          <div v-if="item.filmLength" class="text-slate-300 text-sm">{{
+          <div v-if="item.filmLength" class="text-gray-500 text-sm">{{
               item.filmLength
             }} мин.
           </div>
           <div v-if="item.ratingAgeLimits"
-               class=" text-white text-xs font-semibold w-8 border border-white rounded-md box-border h-5 flex justify-center items-center">
+               class=" text-black text-xs font-semibold w-8 border border-black rounded-md box-border h-5 flex justify-center items-center">
             {{
               item.ratingAgeLimits.split('age')[1]
             }}+
           </div>
         </div>
+      </div>
+      <div
+          class="flex items-center justify-around  bg-gradient-to-r from-orange-300 via-orange-600 to-fray-400 bg-opacity-10 mt-3 rounded-sm">
         <div
-            class="flex items-center justify-around  bg-gradient-to-r from-gray-900 via-orange-800 to-fray-400 bg-opacity-10 mx-1 rounded-sm">
-          <div
-              class="p-2 flex flex-col items-center justify-center"
-              @click="item. isFavorite ? favoritesStore.removeFromFavorites(item, id) : favoritesStore.
+            class="p-2 flex flex-col items-center justify-center"
+            @click="item. isFavorite ? favoritesStore.removeFromFavorites(item, id) : favoritesStore.
               addToFavorites(item, id)"
-          >
-            <BookmarkIcon class="w-6" alt="home"
-                          :class="item.isFavorite ? 'text-orange-600 fill-orange-600' : ''"/>
-            <span class="text-xs text-center">Буду <br>смотреть</span>
-          </div>
-          <a :href="item.webUrl"
-             class="my-2 text-sm rounded-full  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-4 py-2 text-center">Смотреть
-            на
-            Кинопоиске</a>
-
+        >
+          <BookmarkIcon class="w-6" alt="home"
+                        :class="item.isFavorite ? 'text-orange-600 fill-orange-600' : 'text-white'"/>
+          <span class="text-xs text-center text-white">Буду <br>смотреть</span>
         </div>
+        <a :href="item.webUrl"
+           class="my-2 text-sm rounded-full text-white bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-4 py-2 text-center">Смотреть
+          на
+          Кинопоиске</a>
+
       </div>
     </section>
     <section class="container p-2">
@@ -82,10 +82,10 @@
         </div>
         <h2 class="text-xl bold">Рейтинг Кинопоиска</h2>
         <div
-            class="flex flex-col items-center justify-center bg-slate-600 bg-opacity-50 py-4 rounded-md w-full self-center gap-2">
+            class="flex flex-col items-center justify-center bg-gray-300 bg-opacity-50 py-4 rounded-md w-full self-center gap-2">
         <span
             v-if="!item.ratingKinopoisk"
-            class="text-md text-slate-600 font-bold">нет рейтинга</span>
+            class="text-md text-gray-600 font-bold">нет рейтинга</span>
           <span
               v-else
               :class="!item.ratingKinopoisk ? 'text-slate-300' : item.ratingKinopoisk > 8 ? 'text-yellow-500' : item.ratingKinopoisk > 7 ? 'text-green-500' : item.ratingKinopoisk > 5 ? 'text-slate-600' : 'text-red-400'"
@@ -95,7 +95,7 @@
             Оценок: {{ item.ratingKinopoiskVoteCount }}
           </div>
           <a :href="item.webUrl"
-             class="mb-2 rounded-full px-10 py-3 text-center bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400">Оценить</a>
+             class="mb-2 rounded-full px-10 py-3 text-center bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 text-white">Оценить</a>
         </div>
       </div>
     </section>
@@ -104,7 +104,7 @@
       <SliderList :films="similarFilms"/>
     </section>
     <ScrollToTop/>
-    <div class="h-28 bg-black"></div>
+    <div class="h-28 bg-white"></div>
 
   </main>
 </template>
@@ -113,16 +113,16 @@
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import {onBeforeRouteUpdate, useRoute} from "vue-router";
-import Loading from "@/components/Loading.vue";
-import BackLink from "@/components/BackLink.vue";
+import Loading from "@/components/ui/Loading.vue";
+import BackLink from "@/components/ui/BackLink.vue";
 import SliderList from "@/components/SliderList.vue";
-import ScrollToTop from "@/components/ScrollToTop.vue";
-import Title from "@/components/Title.vue";
+import ScrollToTop from "@/components/ui/ScrollToTop.vue";
+import Title from "@/components/ui/Title.vue";
 import StaffList from "@/components/StaffList.vue";
 import {useMeta} from "vue-meta";
 import {BookmarkIcon, CheckIcon, PlusIcon} from "@heroicons/vue/24/outline/index.js";
 import {useFavoritesStore} from "@/stores/favorites.js";
-import Swiper from "@/components/Swiper.vue";
+import Swiper from "@/components/ui/Swiper.vue";
 
 const favoritesStore = useFavoritesStore()
 const isLoading = ref(true)
@@ -230,3 +230,21 @@ useMeta({
   ]
 })
 </script>
+
+<style lang="scss" scoped>
+:deep(.modal-style) {
+  box-sizing: border-box;
+  width: 100%;
+  color: white;
+  border-radius: 1rem 1rem 0 0;
+}
+
+:deep(.swipe-modal-drag-handle) {
+  background-color: #ea580c !important;
+  width: 48px !important;
+}
+
+:deep(.swipe-modal-content) {
+  background-color: rgba(157, 157, 157, 0.96) !important;
+}
+</style>

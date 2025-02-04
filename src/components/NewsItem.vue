@@ -8,15 +8,15 @@
       :navigation="false"
       :spaceBetween="30"
       :modules="modules"
-      class="mySwiper mb-8"
+      class="mySwiper mb-4"
   >
     <swiper-slide v-for="news in newsStore.newsOnMain" :key="news.item.kinopoiskId">
       <div class="overflow-hidden bg-cover h-48 w-full"
            :style="`background-image: url(${news.item.imageUrl})`">
-        <div class="absolute top-0 left-0 w-full h-full bg-black opacity-20"></div>
-        <h2 class="absolute bottom-4 left-4 text-xs w-1/2">{{ news.item.title }}</h2>
+        <div class="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
+        <h2 class="absolute bottom-4 left-4 text-xs w-1/2 text-white">{{ news.item.title }}</h2>
         <a :href="news.item.url"
-           class="absolute bottom-4 right-4 text-xs bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-4 py-2 rounded-md">Подробнее</a>
+           class="absolute bottom-4 right-4 text-xs bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-4 py-2 rounded-md text-white">Подробнее</a>
       </div>
     </swiper-slide>
   </swiper>

@@ -25,7 +25,7 @@ const setWatchedFilm = (param) => {
 <template>
   <div>
     <EllipsisHorizontalIcon @click="isOpen = true"
-                            class="w-4 text-white"
+                            class="w-5 text-gray-500"
                             alt="favorites"
     />
 
@@ -35,10 +35,11 @@ const setWatchedFilm = (param) => {
       snapPoint="auto"
       :is-scroll-lock="true"
       :is-full-screen="false"
+      class="bg-gray-600 bg-opacity-50 backdrop-blur-sm"
   >
-    <div class="flex items-center  gap-8 mb-8 relative"
+    <div class="flex items-center  gap-8 mb-8 relative "
     >
-      <div class="flex items-start justify-around gap-4 w-full">
+      <div class="flex items-start justify-around gap-4 w-full ">
         <div
             class="p-2 flex flex-col items-center justify-center gap-1"
             @click="setWatchedFilm(film.isWatched)"
@@ -74,6 +75,6 @@ const setWatchedFilm = (param) => {
 }
 
 :deep(.swipe-modal-content) {
-  background-color: #111827 !important;
+  background-color: rgba(157, 157, 157, 0.96) !important;
 }
 </style>

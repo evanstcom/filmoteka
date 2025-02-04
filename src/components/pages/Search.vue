@@ -2,53 +2,39 @@
   <metainfo>
     <template v-slot:title/>
   </metainfo>
-  <section class="container mx-auto px-1">
-    <div class="relative w-full" :class="{shake : disabled}">
-      <MagnifyingGlassIcon class="absolute w-5 text-gray-400 top-1/2 -translate-y-1/2 left-3" alt="search"/>
+  <section class="container mx-auto px-1 text-sm">
+    <div class="relative w-full px-0.5 mb-3" :class="{shake : disabled}">
+      <MagnifyingGlassIcon class="absolute w-5 text-gray-600 top-1/2 -translate-y-1/2 left-3" alt="search"/>
       <XMarkIcon v-show="searchStore.memory.length > 0" @click="() => {
       searchStore.memory = ''
       searchStore.memoryFilms = []
       notFound = false
       }"
-                 class="absolute w-5 text-gray-400 top-1/2 -translate-y-1/2 right-3" alt="close"/>
+                 class="absolute w-5 text-gray-600 top-1/2 -translate-y-1/2 right-3" alt="close"/>
       <input
           :defaultvalue="searchStore.memory"
           :placeholder="disabled ? 'Поле не должно быть пустым' : 'Фильмы, сериалы'"
-          class="w-full h-10 px-10 bg-gray-900 bg-opacity-50 py-2 pr-10 outline-none flex items-center text-sm"
+          class="w-full h-10 px-10 py-2 pr-10 flex items-center text-sm text-black bg-gray-100 outline-none placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-none sm:text-sm/6 rounded-md"
           type="text" v-model="searchStore.memory" @keydown.enter="goToSearch"
           @keydown.backspace="searchStore.memoryFilms = []; notFound = false">
-      <button v-show="searchStore.memory.length > 0" class="absolute right-20 top-1/2 -translate-y-1/2 mr-1"
-              @click="searchValue = ''"></button>
-      <!--      <button
-                class="absolute right-0 top-1/2 -translate-y-1/2 bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 py-2 px-3 rounded-md"
-                @click="goToSearch">Найти
-            </button>-->
     </div>
     <div v-if="searchStore.memory.length > 0">
-      <div v-if="!notFound" v-for="film in searchStore.memoryFilms" v-auto-animate
-           class="pt-2 bg-gray-900 bg-opacity-50">
-        <SearchItem :film="film"/>
-      </div>
+      <FilmList v-if="!notFound" :films="searchStore.memoryFilms" size-image="w-12" size-block="min-w-12"/>
       <div v-else>
         <p class="text-center text-sm text-gray-400 mt-4">Ничего не нашлось</p>
       </div>
     </div>
-    <div v-else class="bg-gray-900 bg-opacity-50 ">
+    <div v-else>
       <div v-if="searchStore.lastSearch.length > 0">
-        <div class="flex items-end justify-between py-3 px-3">
-          <h4 class="text-sm text-gray-400  ">Вы недавно искали</h4>
-          <span class="text-xs text-gray-400" @click="searchStore.removeAllSearch">Очистить</span>
+        <div class="flex items-end justify-between pb-3 px-1">
+          <h4 class="text-sm text-gray-600  ">Вы недавно искали</h4>
+          <span class="text-xs text-gray-600" @click="searchStore.removeAllSearch">Очистить</span>
         </div>
-        <div v-for="film in searchStore.lastSearch.slice(0, 7)" v-auto-animate>
-          <SearchItem :film="film" :remove="true"/>
-        </div>
+        <FilmList :films="searchStore.lastSearch.slice(0, 6)" size-image="w-12" size-block="min-w-12" :remove="true"/>
       </div>
-      <!--      <div v-else>
-              <p class="text-center text-sm text-gray-400 mt-4">Нет истории поиска</p>
-            </div>-->
     </div>
-    <div class="h-28 bg-black"></div>
   </section>
+  <div class="h-28"></div>
 </template>
 
 <script setup>
@@ -56,8 +42,8 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useMeta} from "vue-meta";
 import {MagnifyingGlassIcon, XMarkIcon} from "@heroicons/vue/24/outline/index.js";
-import SearchItem from "@/components/SearchItem.vue";
 import {useSearchStore} from "@/stores/search.js";
+import FilmList from "@/components/FilmList.vue";
 
 const apiKey = import.meta.env.VITE_API_KEY_FILMS
 const searchStore = useSearchStore();
@@ -79,6 +65,7 @@ const getItemSearch = async (q) => {
   }
 }
 const goToSearch = () => {
+  if (!searchStore.memory) return warnDisabled()
   if (searchStore.memory.length > 2) {
     getItemSearch(searchStore.memory)
   }
@@ -90,12 +77,12 @@ const goToSearch = () => {
 //ошибки если инпут пустой
 const disabled = ref(false)
 
-/*function warnDisabled() {
+function warnDisabled() {
   disabled.value = true
   setTimeout(() => {
     disabled.value = false
   }, 1500)
-}*/
+}
 
 onMounted(() => {
   /*  nextTick(() => {

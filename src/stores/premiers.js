@@ -10,12 +10,11 @@ export const usePremiersStore = defineStore('premiersStore', () => {
     const topOnMain = ref([])
     const currentPage = ref(1)
     const loader = ref(true)
-    /*    const apiKey = import.meta.env.VITE_API_KEY_FILMS*/
     const auth = getAuth();
     const db = getDatabase();
-    const getPremiers = () => {
+    const getPremiers = async () => {
         loader.value = true
-        onAuthStateChanged(auth, (user) => {
+        await onAuthStateChanged(auth, (user) => {
             if (user) {
                 const starCountRef = dbRef(db, `premiers`);
                 onValue(starCountRef, (snapshot) => {
@@ -30,9 +29,9 @@ export const usePremiersStore = defineStore('premiersStore', () => {
         loader.value = false
     }
 
-    const getTop250 = (page) => {
+    const getTop250 = async (page) => {
         loader.value = true
-        onAuthStateChanged(auth, (user) => {
+        await onAuthStateChanged(auth, (user) => {
             if (user) {
                 const starCountRef = dbRef(db, `top/${page}`);
                 onValue(starCountRef, (snapshot) => {
@@ -47,9 +46,9 @@ export const usePremiersStore = defineStore('premiersStore', () => {
         currentPage.value = page
         loader.value = false
     }
-    const getTopOnMain = () => {
+    const getTopOnMain = async () => {
         loader.value = true
-        onAuthStateChanged(auth, (user) => {
+        await onAuthStateChanged(auth, (user) => {
             if (user) {
                 const starCountRef = dbRef(db, `top/1`);
                 onValue(starCountRef, (snapshot) => {
