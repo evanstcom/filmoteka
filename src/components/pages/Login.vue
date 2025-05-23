@@ -20,7 +20,7 @@
           <div class="mt-2">
             <input type="email" name="email" id="email" autocomplete="email" required=""
                    v-model="email"
-                   class="block w-full rounded-md bg-gray-900 px-3 py-1.5 text-base outline outline-1 outline-gray-900 -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
+                   class="block w-full rounded-md bg-gray-100 px-3 py-1.5 text-base outline-none -outline-offset-1 placeholder:text-gray-400 sm:text-sm/6"/>
           </div>
         </div>
 
@@ -28,16 +28,16 @@
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm/6 font-medium">Пароль</label>
             <div class="text-sm">
-              <a href="#" class="text-orange-600 hover:text-orange-500">Забыли пароль?</a>
+              <a href="#" class="text-orange-600 hover:text-orange-500" @click="handleClick">Забыли пароль?</a>
+              <ForgotPassword :handleClick="handleClick" :openPopup="openPopup"/>
             </div>
           </div>
           <div class="mt-2">
             <input v-model="password" type="password" name="password" id="password" autocomplete="current-password"
                    required=""
-                   class="block w-full rounded-md bg-gray-900 px-3 py-1.5 text-base outline outline-1 outline-gray-900 -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
+                   class="block w-full rounded-md bg-gray-100 px-3 py-1.5 text-base outline-none -outline-offset-1 placeholder:text-gray-400 sm:text-sm/6"/>
           </div>
         </div>
-
         <div>
           <button v-if="!authStore.loader" type="submit"
                   @click="signIn"
@@ -60,8 +60,9 @@
 import {useAuthStore} from "@/stores/auth";
 import {onMounted, ref} from "vue";
 import {ExclamationTriangleIcon} from "@heroicons/vue/24/outline";
-import Loading from "@/components/Loading.vue";
+import Loading from "@/components/ui/Loading.vue";
 import {useRouter} from "vue-router";
+import ForgotPassword from "@/components/popups/ForgorPassword.vue";
 
 const router = useRouter()
 
@@ -80,6 +81,13 @@ const signIn = async (e) => {
     authStore.error = 'Заполните все поля'
   }
 }
+
+const openPopup = ref(false)
+
+const handleClick = () => {
+  openPopup.value = !openPopup.value
+}
+
 onMounted(() => {
   authStore.error = ''
   email.value = ''

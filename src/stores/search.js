@@ -9,7 +9,10 @@ export const useSearchStore = defineStore('searchStore', () => {
     const memoryFilms = ref([])
     const db = getDatabase();
     const auth = getAuth();
+
+    const loader = ref(true)
     const getLastSearch = () => {
+        loader.value = true
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const starCountRef = query(dbRef(db, `users/${user.uid}/search`), orderByChild('date'));
@@ -19,6 +22,7 @@ export const useSearchStore = defineStore('searchStore', () => {
                         favItems.push(childSnapshot.val())
                     })
                     lastSearch.value = favItems.reverse()
+                    loader.value = false
                 }, (error) => {
                     console.log(error);
                 });
@@ -49,5 +53,5 @@ export const useSearchStore = defineStore('searchStore', () => {
             console.log('Удалено все')
         ).catch((error) => console.log(error));
     }
-    return {memory, memoryFilms, lastSearch, getLastSearch, addToLastSearch, removeFromSearch, removeAllSearch}
+    return {memory, memoryFilms, lastSearch, loader, getLastSearch, addToLastSearch, removeFromSearch, removeAllSearch}
 })

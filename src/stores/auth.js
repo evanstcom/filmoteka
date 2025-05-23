@@ -43,12 +43,13 @@ export const useAuthStore = defineStore('auth', () => {
                             name: ''
                         }
                         router.push('/login')
-                        console.log("Logout OK")
+                        /*console.log("Logout OK")*/
                     })
                     .catch((e) => console.log(e))
                 break
 
             case 'login':
+                loader.value = true
                 try {
                     const {user} = await signInWithEmailAndPassword(firebaseAuth, payload.email, payload.password)
                     if (user) {

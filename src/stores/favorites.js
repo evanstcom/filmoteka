@@ -7,10 +7,11 @@ export const useFavoritesStore = defineStore('favoritesStore', () => {
     const favorites = ref([])
     const db = getDatabase();
     const auth = getAuth();
+    const loader = ref(true)
     const getFavorites = () => {
+        loader.value = true
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log(user)
                 const starCountRef = query(dbRef(db, `users/${user.uid}/favorites`), orderByChild('date'));
                 onValue(starCountRef, (snapshot) => {
                     const favItems = []
@@ -18,7 +19,7 @@ export const useFavoritesStore = defineStore('favoritesStore', () => {
                         favItems.push(childSnapshot.val())
                     })
                     favorites.value = favItems.reverse()
-                    console.log(favorites.value)
+                    loader.value = false
                 }, (error) => {
                     console.log(error);
                 });
@@ -49,5 +50,5 @@ export const useFavoritesStore = defineStore('favoritesStore', () => {
             console.log('Удалено')
         ).catch((error) => console.log(error));
     }
-    return {favorites, getFavorites, addToFavorites, removeFromFavorites}
+    return {favorites, getFavorites, addToFavorites, removeFromFavorites, loader}
 })

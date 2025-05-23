@@ -9,20 +9,21 @@ defineProps({
     type: String,
     required: true
   },
-  shortDescription: {
-    type: String,
-    required: false
-  },
   description: {
     type: String,
     required: false
+  },
+  openTextStyle: {
+    type: String,
+    required: false,
+    default: 'text-sm'
   }
 })
 
 </script>
 
 <template>
-  <p class="text-orange-600 text-sm text-end" @click="isOpen = true">{{ openText }}</p>
+  <p class="text-orange-600 text-end" :class="openTextStyle" @click="isOpen = true">{{ openText }}</p>
   <SwipeModal
       v-model="isOpen"
       snapPoint="auto"

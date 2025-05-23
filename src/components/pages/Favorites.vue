@@ -1,9 +1,10 @@
 <script setup>
 import {useFavoritesStore} from "@/stores/favorites.js";
-import Title from "@/components/Title.vue";
-import ScrollToTop from "@/components/ScrollToTop.vue";
+import Title from "@/components/ui/Title.vue";
+import ScrollToTop from "@/components/ui/ScrollToTop.vue";
 import {onMounted} from "vue";
-import FavoriteItem from "@/components/FavoriteItem.vue";
+import FilmList from "@/components/FilmList.vue";
+import Skeleton from "@/components/ui/Skeleton.vue";
 
 const favoritesStore = useFavoritesStore()
 
@@ -17,12 +18,13 @@ onMounted(() => {
 <template>
   <section class="relative container mx-auto px-1">
     <Title title="Избранное"/>
-    <div class="grid-cols-1 grid gap-1">
-      <FavoriteItem :film="film" v-for="film in favoritesStore.favorites"
-                    :key="film.id"
-                    size="w-full h-72"/>
+    <Skeleton v-if="favoritesStore.loader" :full-screen="true"/>
+    <div v-else>
+      <FilmList v-if="favoritesStore.favorites.length" :films="favoritesStore.favorites" size-image="w-16"
+                size-block="min-w-16" :favorite="true"/>
+      <div v-else class="text-gray-600 text-sm my-4">В избранное ничего не добавлено</div>
     </div>
-    <div class="h-20"></div>
-    <ScrollToTop/>
+    <div class="h-28"></div>
+    <ScrollToTop v-show="favoritesStore.favorites.length > 6"/>
   </section>
 </template>

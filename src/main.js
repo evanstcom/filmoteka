@@ -11,6 +11,7 @@ import "vue-awesome-paginate/dist/style.css";
 
 import App from './App.vue'
 import Item from '@/components/pages/Item.vue'
+import Staff from '@/components/pages/Staff.vue'
 import MainPage from '@/components/pages/MainPage.vue'
 import Search from '@/components/pages/Search.vue'
 import NotFound from '@/components/pages/NotFound.vue'
@@ -57,6 +58,11 @@ const routes = [
     },
     {
         path: '/film/:id', component: Item, name: 'item', meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/staff/:id', component: Staff, name: 'staff', meta: {
             auth: true
         }
     },

@@ -12,7 +12,7 @@
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div class="flex min-h-full justify-center items-center p-4 text-center sm:items-center">
+        <div class="flex min-h-full justify-center items-center p-4 text-center sm:items-center backdrop-blur-sm">
           <TransitionChild
               as="template"
               enter="duration-300 ease-out"
@@ -23,8 +23,8 @@
               leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-                class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all flex flex-col w-full sm:my-8">
-              <div class="bg-gray-900 px-4 pb-4 pt-4">
+                class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all flex flex-col w-full sm:my-8 ">
+              <div class="bg-white px-4 pb-4 pt-4 ">
                 <div class="items-center justify-center relative">
                   <div class="mt-3">
                     <DialogTitle as="h3" class="text-base font-semibold text-center">Изменить имя
@@ -39,15 +39,15 @@
                   </div>
                 </div>
               </div>
-              <form class="space-y-1 bg-gray-900" action="#" method="POST">
-                <div class="bg-gray-900 px-4 pb-4 pt-2">
+              <form class="space-y-1 bg-white" action="#" method="POST">
+                <div class="bg-white px-4 pb-4 pt-2">
                   <label for="name" class=" text-sm/6 font-medium">Новое имя</label>
                   <div class="mt-2">
                     <input v-model="name" type="text" name="name" id="name" autocomplete="name" required
-                           class="w-full px-3 rounded-md bg-gray-900 py-1.5 text-base outline outline-1 outline-white -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
+                           class="block w-full rounded-md bg-gray-100 px-3 py-1.5 text-base outline-none -outline-offset-1 placeholder:text-gray-400 sm:text-sm/6"/>
                   </div>
                 </div>
-                <div class="bg-gray-900 px-4 pb-4 pt-2 items-center flex flex-col ">
+                <div class="bg-white px-4 pb-4 pt-2">
                   <button
                       v-if="!authStore.loader"
                       type="button"
@@ -59,7 +59,7 @@
                   </button>
                   <Loading v-else :full-screen="false"/>
                   <button type="submit"
-                          class="mt-3 inline-flex text-center justify-center rounded-md w-full  py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-900 sm:w-auto"
+                          class="mt-3 inline-flex text-center justify-center rounded-md w-full py-2 text-sm font-semibold ring-inset sm:w-auto"
                           @click.prevent="handleClick" ref="cancelButtonRef">Закрыть
                   </button>
                 </div>
@@ -82,7 +82,7 @@ import {
 } from '@headlessui/vue'
 import {useAuthStore} from "@/stores/auth.js";
 import {ref} from "vue";
-import Loading from "@/components/Loading.vue";
+import Loading from "@/components/ui/Loading.vue";
 import {ExclamationTriangleIcon} from "@heroicons/vue/24/outline/index.js";
 
 const name = ref('')

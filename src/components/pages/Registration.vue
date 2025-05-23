@@ -19,14 +19,14 @@
           <label for="name" class="block text-sm/6 font-medium">Ваше имя</label>
           <div class="mt-2">
             <input v-model="name" type="text" name="name" id="name" autocomplete="name" required
-                   class="block w-full rounded-md bg-gray-900 px-3 py-1.5 text-base outline outline-1 outline-gray-900 -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
+                   class="block w-full rounded-md bg-gray-100 px-3 py-1.5 text-base outline-none  -outline-offset-1 placeholder:text-gray-400  sm:text-sm/6"/>
           </div>
         </div>
         <div>
           <label for="email" class="block text-sm/6 font-medium">Email</label>
           <div class="mt-2">
             <input v-model="email" type="email" name="email" id="email" autocomplete="email" required
-                   class="block w-full rounded-md bg-gray-900 px-3 py-1.5 text-base outline outline-1 outline-gray-900 -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6"/>
+                   class="block w-full rounded-md bg-gray-100 px-3 py-1.5 text-base outline-none  -outline-offset-1 placeholder:text-gray-400  sm:text-sm/6"/>
           </div>
         </div>
 
@@ -37,7 +37,7 @@
           <div class="mt-2">
             <input v-model="password" type="password" name="password" id="password" autocomplete="current-password"
                    required=""
-                   class="block w-full rounded-md bg-gray-900 px-3 py-1.5 text-base outline outline-1 outline-gray-900 -outline-offset-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-orange-600 sm:text-sm/6 autofill:bg-gray-900"/>
+                   class="block w-full rounded-md bg-gray-100 px-3 py-1.5 text-base outline-none  -outline-offset-1 placeholder:text-gray-400  sm:text-sm/6"/>
           </div>
         </div>
 
@@ -62,7 +62,7 @@
 import {useAuthStore} from "@/stores/auth";
 import {onMounted, ref} from "vue";
 import {ExclamationTriangleIcon} from "@heroicons/vue/24/outline";
-import Loading from "@/components/Loading.vue";
+import Loading from "@/components/ui/Loading.vue";
 
 import {useRouter} from "vue-router";
 

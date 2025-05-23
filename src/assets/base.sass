@@ -13,13 +13,26 @@
   font-family: 'Montserrat', sans-serif
   scroll-behavior: smooth
 
+
+html
+  background: #fff
+
 ::-webkit-scrollbar
   display: none
 
 
 body
-  background-color: #000
-  color: #fff
+  background-color: #fff
+  color: #000
 
   input:-webkit-autofill, input:-webkit-autofill:focus
     transition: background-color 0s 600000s, color 0s 600000s !important
+
+input[type=text]::placeholder
+  color: rgb(74, 84, 98)
+
+header
+  background-color: white
+
+header.night
+  background-color: white

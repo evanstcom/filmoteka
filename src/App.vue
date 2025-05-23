@@ -4,7 +4,6 @@ import {useAuthStore} from "@/stores/auth.js";
 import {computed, onMounted, ref} from "vue";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useRouter} from "vue-router";
-import Loading from "@/components/Loading.vue";
 
 const authStore = useAuthStore()
 
@@ -19,10 +18,9 @@ const loading = ref(true)
 const checkUser = () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log("User logged in")
-      loading.value = false
+      /*console.log("User logged in")*/
     } else {
-      console.log("User logged out")
+      /*console.log("User logged out")*/
       authStore.auth('logout')
     }
   })

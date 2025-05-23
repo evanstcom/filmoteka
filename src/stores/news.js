@@ -47,6 +47,7 @@ export const useNewsStore = defineStore('newsStore', () => {
                 const starCountRef = dbRef(db, `news/${page}`);
                 onValue(starCountRef, (snapshot) => {
                     newsData.value = snapshot.val()
+                    loader.value = false
                 }, (error) => {
                     console.log(error);
                 });
@@ -55,7 +56,6 @@ export const useNewsStore = defineStore('newsStore', () => {
             }
         })
         currentPage.value = page
-        loader.value = false
     }
 
     const getLastNews = async () => {
@@ -75,5 +75,5 @@ export const useNewsStore = defineStore('newsStore', () => {
         loader.value = false
     }
 
-    return {newsData, getNews, getLastNews, newsOnMain, currentPage}
+    return {newsData, getNews, getLastNews, newsOnMain, currentPage, loader}
 })

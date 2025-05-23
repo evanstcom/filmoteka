@@ -24,7 +24,7 @@
           </dd>
           <dd v-else class="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">Уведомления не разрешены</dd>
           <div
-              class="absolute right-1 top-1/2 -translate-y-1/2  bg-opacity-50 bg-gray-900 p-4 rounded-full"
+              class="absolute right-1 top-1/2 -translate-y-1/2  bg-opacity-50 bg-gray-100 p-4 rounded-full"
               @click="handleOpenPopupNotification">
             <BellIcon v-if="authStore.notificationToken" class="size-6 text-green-500" aria-hidden="true"/>
             <BellSlashIcon v-else class="size-6 text-red-500" aria-hidden="true"/>
@@ -38,7 +38,7 @@
       </dl>
     </div>
     <button @click="handlePopupLogout"
-            class="container absolute bottom-24 left-1/2 w-11/12 -translate-x-1/2 text-md  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 py-2 rounded-md">
+            class="container absolute bottom-24 left-1/2 w-11/12 -translate-x-1/2 text-md  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 py-2 rounded-md text-white">
       Выйти
     </button>
     <PopUpLogout :handle-click="handlePopupLogout" :open-popup="openPopupLogout"/>
@@ -47,10 +47,10 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import Title from "@/components/Title.vue";
-import PopUpLogout from "@/components/PopupLogout.vue";
-import PopupNotification from "@/components/PopupNotification.vue";
-import PopupEdit from "@/components/PopupEdit.vue";
+import Title from "@/components/ui/Title.vue";
+import PopUpLogout from "@/components/popups/PopupLogout.vue";
+import PopupNotification from "@/components/popups/PopupNotification.vue";
+import PopupEdit from "@/components/popups/PopupEdit.vue";
 import {BellSlashIcon, BellIcon, PencilSquareIcon} from "@heroicons/vue/24/outline/index.js";
 import {useAuthStore} from "@/stores/auth.js";
 
