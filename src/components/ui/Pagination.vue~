@@ -1,0 +1,74 @@
+<template>
+  <div
+      class="fixed bottom-20 right-1/2 translate-x-1/2 inline-block bg-gray-600 bg-opacity-50 backdrop-blur-sm p-2 rounded-md z-50">
+    <vue-awesome-paginate
+        :total-items="totalItems"
+        :items-per-page="itemsPerPage"
+        :max-pages-shown="maxPagesShown"
+        @click="onClickHandler"
+        v-model="currentPage"
+    />
+  </div>
+</template>
+
+<script setup>
+import {VueAwesomePaginate} from "vue-awesome-paginate";
+import {ref} from "vue";
+import "vue-awesome-paginate/dist/style.css";
+import {usePremiersStore} from "@/stores/premiers.js";
+
+const premiersStore = usePremiersStore()
+const currentPage = ref(1)
+
+const {totalItems, itemsPerPage, maxPagesShown} = defineProps({
+  totalItems: {
+    type: Number,
+    required: true
+  },
+  itemsPerPage: {
+    type: Number,
+    required: true
+  },
+  maxPagesShown: {
+    type: Number,
+    required: true
+  }
+})
+
+const onClickHandler = (page) => {
+  premiersStore.getTop250(page)
+  currentPage.value = page
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+};
+
+</script>
+
+<style>
+.pagination-container {
+  display: flex;
+  column-gap: 4px;
+}
+
+.paginate-buttons {
+  height: 24px;
+  font-size: 12px;
+  width: 24px;
+  transition: all 0.2s ease-in-out;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  background-color: rgba(47, 47, 47, 0.5);
+
+  color: white;
+}
+
+.active-page {
+  background-color: orangered;
+  border: 1px solid transparent;
+  color: white;
+}
+</style>

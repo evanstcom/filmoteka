@@ -1,0 +1,57 @@
+<template>
+  <Loading v-if="premierStore.loader" :full-screen="true"/>
+  <section v-else class="relative container mx-auto p-1">
+    <div class="flex gap-2 mb-1">
+      <BackLink/>
+      <Title title="Топ 250"/>
+    </div>
+    <FilmList :films="premierStore.top250" size="w-16"/>
+    <div class="h-32"></div>
+    <div
+        class="fixed bottom-20 right-1/2 translate-x-1/2 inline-block bg-gray-600 bg-opacity-50 backdrop-blur-sm p-2 rounded-md z-50">
+      <vue-awesome-paginate
+          :total-items="250"
+          :items-per-page="20"
+          :max-pages-shown="3"
+          v-model="currentPage"
+          @click="onClickHandler"
+      />
+    </div>
+    <ScrollToTop/>
+  </section>
+</template>
+
+<script setup>
+import {onMounted, ref} from "vue";
+import Loading from "@/components/ui/Loading.vue";
+import BackLink from "@/components/ui/BackLink.vue";
+import {usePremiersStore} from "@/stores/premiers.js";
+import Title from "@/components/ui/Title.vue";
+import ScrollToTop from "@/components/ui/ScrollToTop.vue";
+import {VueAwesomePaginate} from "vue-awesome-paginate";
+import FilmList from "@/components/FilmList.vue";
+
+const premierStore = usePremiersStore()
+const currentPage = ref(1)
+
+const onClickHandler = async (page) => {
+  await premierStore.getTop250(page)
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+};
+
+onMounted(() => {
+  if (!premierStore.top250.length) {
+    premierStore.getTop250(1)
+  } else {
+    currentPage.value = premierStore.currentPage
+  }
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+})
+
+</script>

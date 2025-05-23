@@ -1,9 +1,8 @@
 <template>
-  <div class="flex justify-between mb-4 items-center">
-    <h2 class="text-2xl">{{ title }}</h2>
+  <div class="flex justify-between mb-3 pt-0.5">
+    <h2 class="text-lg font-semibold">{{ title }}</h2>
     <RouterLink v-if="showAll" :to="{name:link}" class="text-orange-600 flex gap-1.5 pt-1">
       <span class="text-sm leading-none pb-0.5">все</span>
-      <img src="/right_arrow.svg" alt="all" class="w-3">
     </RouterLink>
   </div>
 </template>

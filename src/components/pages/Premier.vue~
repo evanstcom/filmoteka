@@ -1,41 +1,35 @@
 <template>
-  <Loading v-if="isLoading"/>
+  <Loading v-if="premierStore.loader"/>
   <section v-else class="relative container mx-auto p-1">
-    <div class="flex gap-2 mb-4">
+    <div class="flex gap-2 mb-1">
       <BackLink/>
       <Title title="Премьеры этого месяца"/>
     </div>
-    <div class="grid-cols-2 grid gap-1">
-      <SliderItem :film="film" v-for="film in premiersOnPage" :key="film.kinopoiskId ? film.kinopoiskId : film.filmId"
-                  size="w-full h-72"/>
-    </div>
-    <div class="h-20"></div>
+    <FilmList :films="premierStore.premiers"/>
+    <div class="h-28"></div>
     <ScrollToTop/>
   </section>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
-import Loading from "@/components/Loading.vue";
-import SliderItem from "@/components/SliderItem.vue";
-import BackLink from "@/components/BackLink.vue";
-import {usePremierStore} from "@/stores/premier.js";
-import Title from "@/components/Title.vue";
-import ScrollToTop from "@/components/pages/ScrollToTop.vue";
+import {onMounted} from "vue";
+import Loading from "@/components/ui/Loading.vue";
+import BackLink from "@/components/ui/BackLink.vue";
+import {usePremiersStore} from "@/stores/premiers.js";
+import Title from "@/components/ui/Title.vue";
+import ScrollToTop from "@/components/ui/ScrollToTop.vue";
+import FilmList from "@/components/FilmList.vue";
 
-const premierStore = usePremierStore()
-const premiersOnPage = ref([])
-const isLoading = ref(true)
+const premierStore = usePremiersStore()
 
-
-onMounted(async () => {
+onMounted(() => {
   if (!premierStore.premiers.length) {
-    await premierStore.getPremiers()
-    premiersOnPage.value = premierStore.premiers
-  } else {
-    premiersOnPage.value = premierStore.premiers
+    premierStore.getPremiers()
   }
-  isLoading.value = false
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 })
 
 </script>

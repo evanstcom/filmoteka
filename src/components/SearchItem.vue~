@@ -1,0 +1,37 @@
+<template>
+  <div class="relative">
+    <RouterLink :to="{ name: 'item', params: {id: film.filmId ? film.filmId : film.id}}"
+                class="flex p-0.5 gap-1 mr-8"
+                @click="!remove ? searchStore.addToLastSearch(film, film.kinopoiskId ? film.kinopoiskId : film.filmId) : null"
+    >
+      <div class="image bg-contain min-w-12 mr-1">
+        <img class="h-full w-12" :src="film.posterUrlPreview ? film.posterUrlPreview : film.posterUrl"
+             :alt="film.nameRu ? film.nameRu : film.nameEn">
+      </div>
+      <div class="pr-8">
+        <h3 class="text-xs text-black mb-1">{{ film.nameRu ? film.nameRu : film.nameEn }}</h3>
+        <h4 v-show="film.year && film.year !== 'null'" class="text-xs text-gray-400 mb-1">{{ film.year }}</h4>
+      </div>
+    </RouterLink>
+    <div
+        :class="!film.rating ? 'bg-slate-300' : film.rating > 8 ? 'bg-yellow-600' : film.rating > 7 ? 'bg-green-600' : film.rating > 5 ? 'bg-slate-600' : 'bg-red-600'"
+        class="mb-1 text-xs absolute top-1 right-1.5 text-white w-6 text-center rounded-sm">
+      {{ film.rating && film.rating !== "null" ? film.rating : '' }}
+    </div>
+    <XMarkIcon class="absolute w-7 p-1 text-gray-600 top-1/2 -translate-y-1/2 right-1" alt="close" v-show="remove"
+               @click="searchStore.removeFromSearch(film.filmId ? film.kinopoiskId : film.id)"/>
+  </div>
+</template>
+<script setup>
+import {RouterLink} from "vue-router";
+import {useSearchStore} from "@/stores/search.js";
+import {XMarkIcon} from "@heroicons/vue/24/outline/index.js";
+
+const searchStore = useSearchStore();
+
+const {film, size} = defineProps({
+      film: Object,
+      remove: Boolean
+    }
+)
+</script>
