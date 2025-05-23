@@ -1,0 +1,67 @@
+<template>
+  <div class="flex gap-2 items-start p-1 rounded-lg bg-gray-100 bg-opacity-50 relative"
+       :class="comment.uid === auth.currentUser.uid ? 'text-orange-600' : ''">
+    <div class="text-md font-medium bg-gray-100 text-orange-600 flex items-center justify-center rounded-lg">
+      <span class="text-sm font-bold w-8 h-8 flex items-center justify-center"
+            :class="comment.vote < 4 ? 'text-red-400' : comment.vote < 7 ? 'text-gray-400' : comment.vote > 8 ? 'text-yellow-400' : 'text-green-400'">
+      {{ comment.vote }}
+      </span>
+    </div>
+    <div>
+      <div class=" flex justify-between">
+        <h3 class="text-xs mb-1">{{ comment.uid === auth.currentUser.uid ? 'Ваш отзыв' : comment.name }}</h3>
+      </div>
+      <h3 v-show="comment.date" class="text-xs mb-1 text-gray-500">{{
+          comment.date.slice(0, 10)
+        }}</h3>
+      <h3 class="text-xs mb-1 text-gray-500 flex-1 w-60 h-8">
+        {{ comment.comment.length > 60 ? comment.comment.slice(0, 60) + '...' : comment.comment }}</h3>
+      <Swiper v-if="comment.comment.length > 60" open-text="Прочитать отзыв"
+              :description="comment.comment" open-text-style="text-xs"/>
+      <div v-if="comment.uid === auth.currentUser.uid" class="">
+        <div class="flex items-center justify-center gap-2 cursor-pointer ">
+          <div
+              class="flex items-center justify-center gap-2 cursor-pointer absolute top-1 right-1"
+              @click="handlePopupComment">
+            <div class="p-1 rounded-full flex items-center gap-2 ">
+              <PencilSquareIcon class="size-3 text-blue-400" aria-hidden="true"/>
+              <PopupComment :handleClick="handlePopupComment" :openPopup="openPopupComment" :user-comment="comment"
+                            :film-id="filmId"/>
+            </div>
+          </div>
+          <div class="py-1 px-1 rounded-full flex items-center gap-2 absolute bottom-1 left-2.5" @click="deleteComment">
+            <TrashIcon class="size-3 text-red-400" aria-hidden="true"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup>
+import {getAuth} from "firebase/auth";
+import Swiper from "@/components/ui/Swiper.vue";
+import {PencilSquareIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {getDatabase, remove, ref as dbRef} from "firebase/database";
+import PopupComment from "@/components/popups/PopupComment.vue";
+import {ref} from "vue";
+
+const openPopupComment = ref(false)
+const handlePopupComment = () => {
+  openPopupComment.value = !openPopupComment.value
+}
+
+const db = getDatabase();
+const auth = getAuth();
+const {filmId, comment} = defineProps({
+      comment: Object,
+      filmId: String
+    }
+)
+
+const deleteComment = () => {
+  remove(dbRef(db, `items/${filmId}/comments/${auth.currentUser.uid}`)).then(() =>
+      console.log('Удалено')
+  ).catch((error) => console.log(error));
+}
+
+</script>

@@ -19,18 +19,29 @@
           @keydown.backspace="searchStore.memoryFilms = []; notFound = false">
     </div>
     <div v-if="searchStore.memory.length > 0">
-      <FilmList v-if="!notFound" :films="searchStore.memoryFilms" size-image="w-12" size-block="min-w-12"/>
+      <Loading v-if="searchStore.loader" :full-screen="false"/>
       <div v-else>
-        <p class="text-center text-sm text-gray-400 mt-4">Ничего не нашлось</p>
+        <FilmList v-if="!notFound" :films="searchStore.memoryFilms" size-image="w-14" size-block="min-w-14"/>
+        <div v-else>
+          <p class="text-center text-sm text-gray-400 mt-4">Ничего не нашлось</p>
+        </div>
       </div>
     </div>
     <div v-else>
-      <div v-if="searchStore.lastSearch.length > 0">
-        <div class="flex items-end justify-between pb-3 px-1">
-          <h4 class="text-sm text-gray-600  ">Вы недавно искали</h4>
-          <span class="text-xs text-gray-600" @click="searchStore.removeAllSearch">Очистить</span>
+      <Loading v-if="searchStore.loader" :full-screen="false"/>
+      <div v-else>
+        <div v-if="searchStore.lastSearch.length > 0">
+          <div class="flex items-end justify-between pb-3 px-1">
+            <h4 class="text-sm text-gray-600  ">Вы недавно искали</h4>
+            <span class="text-xs text-gray-600" @click="searchStore.removeAllSearch">Очистить</span>
+          </div>
+          <FilmList :films="searchStore.lastSearch.slice(0, 7)" size-image="w-14" size-block="min-w-14" :remove="true"/>
         </div>
-        <FilmList :films="searchStore.lastSearch.slice(0, 6)" size-image="w-12" size-block="min-w-12" :remove="true"/>
+        <div v-else>
+          <div class="flex items-end justify-center pb-3 px-1">
+            <h4 class="text-sm text-gray-600">История поиска пуста</h4>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -44,12 +55,14 @@ import {useMeta} from "vue-meta";
 import {MagnifyingGlassIcon, XMarkIcon} from "@heroicons/vue/24/outline/index.js";
 import {useSearchStore} from "@/stores/search.js";
 import FilmList from "@/components/FilmList.vue";
+import Loading from "@/components/ui/Loading.vue";
 
 const apiKey = import.meta.env.VITE_API_KEY_FILMS
 const searchStore = useSearchStore();
 const notFound = ref(false)
 
 const getItemSearch = async (q) => {
+  searchStore.loader = true
   notFound.value = false
   const {data} = await axios.get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${q.trim()}`
       , {
@@ -63,6 +76,7 @@ const getItemSearch = async (q) => {
     searchStore.memoryFilms = data.films
     notFound.value = false
   }
+  searchStore.loader = false
 }
 const goToSearch = () => {
   if (!searchStore.memory) return warnDisabled()
@@ -85,9 +99,6 @@ function warnDisabled() {
 }
 
 onMounted(() => {
-  /*  nextTick(() => {
-      filter.value.focus()
-    })*/
   searchStore.getLastSearch()
 })
 

@@ -24,7 +24,7 @@
           >
             <DialogPanel
                 class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all flex flex-col w-full sm:my-8">
-              <div class="bg-gray-100 px-4 pb-4 pt-4">
+              <div class="bg-white px-4 pb-4 pt-4">
                 <div class="items-center justify-center">
                   <div class="mt-3">
                     <DialogTitle as="h3" class="text-base text-center">Вы хотите выйти из профиля?
@@ -32,7 +32,7 @@
                   </div>
                 </div>
               </div>
-              <div class="bg-gray-100 px-4 py-4 items-center flex flex-col ">
+              <div class="bg-white px-4 py-4 items-center flex flex-col ">
                 <button type="button"
                         class="inline-flex w-full justify-center rounded-md  bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 outline-none px-3 py-2 text-sm text-white shadow-sm hover:bg-orange-500 sm:w-auto"
                         @click="handleClick">Остаться

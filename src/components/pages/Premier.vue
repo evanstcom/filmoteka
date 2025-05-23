@@ -1,5 +1,5 @@
 <template>
-  <Loading v-if="premierStore.loader"/>
+  <Loading v-if="premierStore.loader" :full-screen="true"/>
   <section v-else class="relative container mx-auto p-1">
     <div class="flex gap-2 mb-1">
       <BackLink/>

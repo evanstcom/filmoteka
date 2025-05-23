@@ -50,10 +50,11 @@ const setWatchedFilm = (param) => {
         </div>
         <div
             class="p-2 flex flex-col items-center justify-center gap-1"
-            @click="favoritesStore.removeFromFavorites(null, film.id)"
+            @click="favoritesStore.removeFromFavorites(null, film.id); isOpen = false"
         >
           <BookmarkIcon class="w-6" alt="home"
-                        :class="film.isFavorite ? 'text-orange-600 fill-orange-600' : ''"/>
+                        :class="film.isFavorite ? 'text-orange-600 fill-orange-600' : ''"
+          />
           <span class="text-xs text-center text-white">Удалить из<br>избранного</span>
         </div>
       </div>

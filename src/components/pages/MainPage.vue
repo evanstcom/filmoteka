@@ -18,12 +18,12 @@
 <script setup>
 import {onMounted} from "vue";
 import SliderList from "../SliderList.vue";
-import Loading from "../ui/Loading.vue";
 import NewsItem from "../NewsItem.vue";
 import Title from "@/components/ui/Title.vue";
 import {useAuthStore} from "@/stores/auth.js";
 import {useMeta} from "vue-meta";
 import {usePremiersStore} from "@/stores/premiers.js";
+import Loading from "@/components/ui/Loading.vue";
 
 const authStore = useAuthStore()
 const premiersStore = usePremiersStore()

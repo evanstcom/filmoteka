@@ -3,13 +3,12 @@
       :slidesPerView="'auto'"
       :free-mode="true"
       class="mySwiper"
-      :freeMode="true"
       :modules="modules"
       :space-between="4"
   >
-    <swiper-slide v-for="item in staffList.slice(0, 20)" :key="item.staffId"
+    <swiper-slide v-for="item in comments"
                   class="flex-1">
-      <StaffItem :staffItem="item"/>
+      <CommentsItem :comment="item" :film-id="filmId"/>
     </swiper-slide>
   </swiper>
 </template>
@@ -18,11 +17,12 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import {FreeMode} from 'swiper/modules';
 import {Swiper, SwiperSlide} from "swiper/vue";
-import StaffItem from "@/components/StaffItem.vue";
+import CommentsItem from "@/components/CommentsItem.vue";
 
 const modules = [FreeMode]
 
 defineProps({
-  staffList: Array
+  comments: Object,
+  filmId: String
 })
 </script>

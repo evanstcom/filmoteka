@@ -2,7 +2,7 @@
   <metainfo>
     <template v-slot:title/>
   </metainfo>
-  <Loading v-if="isLoading" :full-screen="true"/>
+  <Loading v-if="newsStore.loader" :full-screen="true"/>
   <section v-else class="relative container mx-auto p-1">
     <div class="flex gap-2 mb-1">
       <BackLink/>
@@ -57,8 +57,6 @@ const onClickHandler = async (page) => {
 
 const currentPage = ref(1);
 
-const isLoading = ref(true)
-
 onMounted(() => {
   if (!newsStore.newsData.length) {
     newsStore.getNews(1)
@@ -69,7 +67,6 @@ onMounted(() => {
     top: 0,
     behavior: 'smooth'
   })
-  isLoading.value = false
 })
 
 import {useMeta} from "vue-meta";

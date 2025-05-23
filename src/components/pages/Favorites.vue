@@ -4,6 +4,7 @@ import Title from "@/components/ui/Title.vue";
 import ScrollToTop from "@/components/ui/ScrollToTop.vue";
 import {onMounted} from "vue";
 import FilmList from "@/components/FilmList.vue";
+import Skeleton from "@/components/ui/Skeleton.vue";
 
 const favoritesStore = useFavoritesStore()
 
@@ -17,8 +18,13 @@ onMounted(() => {
 <template>
   <section class="relative container mx-auto px-1">
     <Title title="Избранное"/>
-    <FilmList :films="favoritesStore.favorites" size-image="w-16" size-block="min-w-16" :favorite="true"/>
+    <Skeleton v-if="favoritesStore.loader" :full-screen="true"/>
+    <div v-else>
+      <FilmList v-if="favoritesStore.favorites.length" :films="favoritesStore.favorites" size-image="w-16"
+                size-block="min-w-16" :favorite="true"/>
+      <div v-else class="text-gray-600 text-sm my-4">В избранное ничего не добавлено</div>
+    </div>
     <div class="h-28"></div>
-    <ScrollToTop/>
+    <ScrollToTop v-show="favoritesStore.favorites.length > 6"/>
   </section>
 </template>
