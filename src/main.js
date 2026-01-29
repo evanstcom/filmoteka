@@ -22,6 +22,7 @@ import Login from "@/components/pages/Login.vue"
 import Registration from "@/components/pages/Registration.vue"
 import Profile from "@/components/pages/Profile.vue"
 import Favorites from "@/components/pages/Favorites.vue"
+import Game from "@/components/pages/Game.vue"
 import {initializeApp} from "firebase/app";
 import {useAuthStore} from "@/stores/auth.js";
 
@@ -33,6 +34,10 @@ const routes = [
     },
     {
         path: '/profile', component: Profile, name: 'profile', meta: {
+            auth: true
+        }
+    }, {
+        path: '/game', component: Game, name: 'game', meta: {
             auth: true
         }
     },

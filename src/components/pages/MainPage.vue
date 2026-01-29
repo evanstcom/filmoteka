@@ -4,6 +4,12 @@
   </metainfo>
   <Loading v-if="premiersStore.loader" :full-screen="true"/>
   <section v-else class="container mx-auto px-1">
+    <Title title="Добавили новую игру!" :show-all="false"/>
+    <div class="flex justify-between mb-3">
+      <RouterLink class="text-orange-600 font-semibold flex gap-1.5 pt-1" to="game">
+        <span class="text-sm leading-none pb-0.5">Играть</span>
+      </RouterLink>
+    </div>
     <Title title="Последние новости" :show-all="true" link="news"/>
     <NewsItem/>
     <Title title="Премьеры этого месяца" :show-all="true" link="premier"/>
@@ -24,6 +30,7 @@ import {useAuthStore} from "@/stores/auth.js";
 import {useMeta} from "vue-meta";
 import {usePremiersStore} from "@/stores/premiers.js";
 import Loading from "@/components/ui/Loading.vue";
+import {RouterLink} from "vue-router";
 
 const authStore = useAuthStore()
 const premiersStore = usePremiersStore()
