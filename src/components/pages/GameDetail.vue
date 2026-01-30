@@ -14,7 +14,7 @@
         </div>
         <div>
           <p>Комната: <strong>{{ roomId }}</strong></p>
-          <p>Вы: <strong>{{ localRole === 'white' ? 'Белые' : 'Красные' }}</strong></p>
+          <p>Вы: <strong>{{ localRole === 'white' ? 'Белые' : 'Черные' }}</strong></p>
         </div>
       </div>
 
@@ -46,6 +46,7 @@ import {ref, computed, onMounted, onUnmounted} from 'vue';
 import {getDatabase, ref as dbRef, onValue, update, off} from 'firebase/database';
 import PopupEndGame from "@/components/popups/PopupEndGame.vue";
 import {useRouter} from "vue-router";
+
 
 const props = defineProps({
   roomId: {type: String, required: true},
@@ -84,7 +85,7 @@ onMounted(() => {
     const data = snapshot.val();
     if (!data) return;
 
-    // Определяем роль игрока на основе его email
+    // Определяем роль игрока на основе его email, если она еще не определена
     if (data.whitePlayer === props.user.email) localRole.value = 'white';
     else if (data.redPlayer === props.user.email) localRole.value = 'red';
 
@@ -209,9 +210,10 @@ function checkGameOver() {
   });
 
   if (whitePieces === 0 || redPieces === 0) {
-    const winner = whitePieces === 0 ? 'Красные' : 'Белые';
+    const winner = whitePieces === 0 ? 'Черные' : 'Белые';
     endGameText.value = `Игра окончена! Победили ${winner}`;
     update(roomRef, {status: 'finished'});
+    openPopup.value = true
   }
 }
 </script>

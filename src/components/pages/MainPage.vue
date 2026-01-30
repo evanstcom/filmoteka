@@ -5,10 +5,15 @@
   <Loading v-if="premiersStore.loader" :full-screen="true"/>
   <section v-else class="container mx-auto px-1">
     <Title title="Добавили новую игру!" :show-all="false"/>
-    <div class="flex justify-between mb-3">
-      <RouterLink class="text-orange-600 font-semibold flex gap-1.5 pt-1" to="game">
-        <span class="text-sm leading-none pb-0.5">Играть</span>
+    <div class="overflow-hidden bg-cover h-48 w-full relative mb-3"
+         style="background-image: url(/img/checkers.jpg)">
+      <div class="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
+      <RouterLink to="game"
+                  class="absolute bottom-4 right-4 text-xs bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-400 px-4 py-2 rounded-md text-white">
+        Играть
       </RouterLink>
+      <h2 class="absolute bottom-4 left-4 text-xs w-1/2 text-white">Добавили игру в шашки где можно сразиться с
+        друзьями</h2>
     </div>
     <Title title="Последние новости" :show-all="true" link="news"/>
     <NewsItem/>
